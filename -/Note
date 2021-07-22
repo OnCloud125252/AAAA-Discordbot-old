@@ -1,0 +1,28 @@
+Bot
+  https://ithelp.ithome.com.tw/users/20126642/ironman
+
+Server
+Heroku
+Use repl.it + uptimerobot
+  https://www.youtube.com/watch?v=wtrTlzQ8rDo&ab_channel=TYPICALNINJA
+
+
+///簡寫///
+科學班:S
+數資班:M
+
+生物:B
+地科:G
+物理:P
+化學:C
+數學:M
+
+
+///防呆機制///
+try {
+    if (!msg.guild || !msg.member) return;
+    if (!msg.member.user) return;
+    if (msg.member.user.bot) return;
+} catch (err) {
+    return;
+}
