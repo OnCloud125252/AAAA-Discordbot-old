@@ -17,6 +17,8 @@ Use repl.it + uptimerobot
 化學:C
 數學:M
 
+message:msg
+embed:emb
 
 ///防呆機制///
 try {
