@@ -1,11 +1,20 @@
+//////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const auth = require('./auth.json');
+//Time
 const dateObject = new Date() //現在時間，範例 Fri Jul 15 2016 16:23:49 GMT+0800 (CST)
 const year = dateObject.getFullYear()  //年(西元) 4didital
 const month = dateObject.getMonth()  //月 1~11
 const date = dateObject.getDate() //日 1~31
 const day = dateObject.getDay()  //星期 0~5
+//Delay
+function delay(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+}
+////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 //登入資訊
 client.login(auth.key);
@@ -176,7 +185,7 @@ const embM109G = new Discord.MessageEmbed()
     .addFields({name: `第二階段`, value: '**[Google Drive](https://example.com)**'})
     .addFields({name: `\u200B`, value: '**[直接下載](https://example.com)**'})
 
-client.on('message', msg => {
+client.on('message', async msg => {
     //前置判斷
     try {
         if (!msg.guild || !msg.member) return;
@@ -189,8 +198,7 @@ client.on('message', msg => {
     //字串分析
     try {
         const prefix = 'A '
-        if (msg.content.substring(0, prefix.length) === prefix)
-        {
+        if (msg.content.substring(0, prefix.length) === prefix){
             const cmd = msg.content.substring(prefix.length).split(' ');
 
             switch (cmd[0]) {
@@ -201,40 +209,40 @@ client.on('message', msg => {
                     break;
                 //Basic
                 case '課表':
-                    if (day > '0' & day < '6')
-                        if (day == 1)
-                        {
+                    if (day > '0' & day < '6') {
+                        if (day == 1) {
                             msg.channel.send(embtimetablemon);
                             msg.channel.send(embtimetablemonall);
                             break;
                         }
-                        else if (day == 2)
-                        {
+                        else if (day == 2) {
                             msg.channel.send(embtimetabletue);
                             msg.channel.send(embtimetabletueall);
                             break;
                         }
-                        else if (day == 3)
-                        {
+                        else if (day == 3) {
                             msg.channel.send(embtimetablewed);
                             msg.channel.send(embtimetablewedall);
                             break;
                         }
-                        else if (day == 4)
-                        {
+                        else if (day == 4) {
                             msg.channel.send(embtimetablethu);
                             msg.channel.send(embtimetablethuall);
                             break;
                         }
-                        else if (day == 5)
-                        {
+                        else if (day == 5) {
                             msg.channel.send(embtimetablefri);
                             msg.channel.send(embtimetablefriall);
                             break;
                         }
-                    else
-                        msg.reply('今天不用上課啦\n||ばか。。。||');
+                    }
+                    else {
+                        msg.reply('今天不用上課啦\n||ばか。。。||\n不過還是給你看一下課表好了');
+                        await delay(3000)
+                        msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
+                    }
+
                 //Easter Egg
                 case '老婆':
                     msg.reply('你沒有老婆!!');
