@@ -1,10 +1,12 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
+//const auth = require('./auth.json');
+const data = require('./data.js')
 const client = new Discord.Client();
-const auth = require('./auth.json');
+
 //Time
 const dateObject = new Date() //現在時間，範例 Fri Jul 15 2016 16:23:49 GMT+0800 (CST)
-const year = dateObject.getFullYear()  //年(西元) 4didital
+const year = dateObject.getFullYear()  //年(西元) 4digital
 const month = dateObject.getMonth()  //月 1~11
 const date = dateObject.getDate() //日 1~31
 const day = dateObject.getDay()  //星期 0~5
@@ -17,7 +19,7 @@ function delay(ms) {
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 //登入資訊
-client.login(auth.key);
+client.login(process.env.DJS_TOKEN);
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -197,10 +199,8 @@ client.on('message', async msg => {
 
     //字串分析
     try {
-        const prefix = 'A '
-        if (msg.content.substring(0, prefix.length) === prefix){
-            const cmd = msg.content.substring(prefix.length).split(' ');
-
+        if (msg.content.startsWith(data.prefix_A)){
+            const cmd = msg.content.substring(data.prefix_A.length).split(' ');
             switch (cmd[0]) {
                 //Command
                 //Test
@@ -242,7 +242,6 @@ client.on('message', async msg => {
                         msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
                     }
-
                 //Easter Egg
                 case '老婆':
                     msg.reply('你沒有老婆!!');
@@ -273,7 +272,17 @@ client.on('message', async msg => {
                 case 'M109地':
                     msg.channel.send(embM109G);
                     break;
-                
+            }
+        }
+        if (msg.content.startsWith(data.prefix_B)){
+            const cmd = msg.content.substring(data.prefix_B.length).split(' ');
+            switch (cmd[0]) {
+                case 'ping':
+                    msg.channel.send('pong !');
+                    break;
+
+
+                    
             }
         }
     } catch (err) {
