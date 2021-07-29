@@ -24,8 +24,8 @@ function delay(ms) {
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 //登入資訊
-//client.login(process.env.DJS_TOKEN); //Heroku
-client.login(auth.key); //Terminal
+client.login(process.env.DJS_TOKEN); //Heroku
+//client.login(auth.key); //Terminal
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
