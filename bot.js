@@ -1,11 +1,14 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
-//const auth = require('./auth.json');
+const auth = require('./auth.json'); //Terminal
 const data = require('./data.js')
 const client = new Discord.Client();
 
+//Who?
+
+
 //Time
-const dateObject = new Date() //現在時間，範例 Fri Jul 15 2016 16:23:49 GMT+0800 (CST)
+const dateObject = new Date().toLocaleString("zh-TW", { hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" }); //現在時間，範例 Fri Jul 15 2016 16:23:49 GMT+0800 (CST)
 const year = dateObject.getFullYear()  //年(西元) 4digital
 const month = dateObject.getMonth()  //月 1~11
 const date = dateObject.getDate() //日 1~31
@@ -19,7 +22,8 @@ function delay(ms) {
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 //登入資訊
-client.login(process.env.DJS_TOKEN);
+//client.login(process.env.DJS_TOKEN); //Heroku
+client.login(auth.key); //Terminal
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -280,11 +284,17 @@ client.on('message', async msg => {
                 case 'ping':
                     msg.channel.send('pong !');
                     break;
-
-
                     
             }
         }
+        
+        if (msg.content.startsWith(data.prefix_S)){
+            var pre_suggestion = msg.content.toString();
+            var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2))
+            msg.delete({ timeout: 0 })
+            msg.channel.send('> ' + suggestion);
+        }
+
     } catch (err) {
         console.log('OnMessageError', err);
     }
