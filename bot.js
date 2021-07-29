@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
-const auth = require('./auth.json'); //Terminal
+//const auth = require('./auth.json'); //Terminal
 const data = require('./data.js')
 const client = new Discord.Client();
 
@@ -29,7 +29,6 @@ client.login(process.env.DJS_TOKEN); //Heroku
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
-
 ///////////////Embed///////////////
 const embtime = new Discord.MessageEmbed()
     .setColor('#4169e1')

@@ -31,3 +31,6 @@ try {
 
 ///Delay///
 await delay(秒數);
+
+
+3,27,28
