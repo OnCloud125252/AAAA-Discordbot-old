@@ -8,11 +8,13 @@ const client = new Discord.Client();
 
 
 //Time
-const dateObject = new Date().toLocaleString("zh-TW", { hour12: true, hour: "2-digit", minute: "2-digit", second: "2-digit" }); //現在時間，範例 Fri Jul 15 2016 16:23:49 GMT+0800 (CST)
+const dateObject = new Date();
+const dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
 const year = dateObject.getFullYear()  //年(西元) 4digital
-const month = dateObject.getMonth()  //月 1~11
-const date = dateObject.getDate() //日 1~31
-const day = dateObject.getDay()  //星期 0~5
+const month = dateObject.getMonth()  //月 0~11
+const date = (dateObject.getDate()+1) //日 1~31
+const day = (dateObject.getDay()+1)  //星期 0~5
+
 //Delay
 function delay(ms) {
     return new Promise((resolve) => {
@@ -29,13 +31,17 @@ client.on('ready', () => {
 });
 
 ///////////////Embed///////////////
-////課表////
-///暑輔///
-//Mon//
-const embtimetablemon = new Discord.MessageEmbed()
+const embtime = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`目前時間 : ${dateObject}`)
     .setAuthor('上課小幫手')
+const embtime_TW = new Discord.MessageEmbed()
+    .setColor('#4169e1')
+    .setTitle(`目前時間 : ${dateObject_TW}`)
+    .setAuthor('上課小幫手')
+////課表////
+///暑輔///
+//Mon//
 const embtimetablemonall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
@@ -51,10 +57,6 @@ const embtimetablemonall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Tue//
-const embtimetabletue = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`目前時間 : ${dateObject}`)
-    .setAuthor('上課小幫手')
 const embtimetabletueall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
@@ -70,10 +72,6 @@ const embtimetabletueall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n朱中岳`, value: '**[數學](https://meet.google.com/lookup/gi22oanrh4)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Wed//
-const embtimetablewed = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`目前時間 : ${dateObject}`)
-    .setAuthor('上課小幫手')
 const embtimetablewedall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
@@ -89,10 +87,6 @@ const embtimetablewedall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n黃美娟`, value: '**[地科](https://meet.google.com/lookup/agkx73i2bt)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Thu//
-const embtimetablethu = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`目前時間 : ${dateObject}`)
-    .setAuthor('上課小幫手')
 const embtimetablethuall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
@@ -108,10 +102,6 @@ const embtimetablethuall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Fri//
-const embtimetablefri = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`目前時間 : ${dateObject}`)
-    .setAuthor('上課小幫手')
 const embtimetablefriall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
@@ -211,31 +201,35 @@ client.on('message', async msg => {
                 case 'ping':
                     msg.channel.send('pong !');
                     break;
+                case 'test':
+                    msg.channel.send(embtime);
+                    msg.channel.send(embtime_TW);
+                    break;
                 //Basic
                 case '課表':
                     if (day > '0' & day < '6') {
                         if (day == 1) {
-                            msg.channel.send(embtimetablemon);
+                            msg.channel.send(embtime);
                             msg.channel.send(embtimetablemonall);
                             break;
                         }
                         else if (day == 2) {
-                            msg.channel.send(embtimetabletue);
+                            msg.channel.send(embtime);
                             msg.channel.send(embtimetabletueall);
                             break;
                         }
                         else if (day == 3) {
-                            msg.channel.send(embtimetablewed);
+                            msg.channel.send(embtime);
                             msg.channel.send(embtimetablewedall);
                             break;
                         }
                         else if (day == 4) {
-                            msg.channel.send(embtimetablethu);
+                            msg.channel.send(embtime);
                             msg.channel.send(embtimetablethuall);
                             break;
                         }
                         else if (day == 5) {
-                            msg.channel.send(embtimetablefri);
+                            msg.channel.send(embtime);
                             msg.channel.send(embtimetablefriall);
                             break;
                         }
