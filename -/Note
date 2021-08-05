@@ -7,6 +7,10 @@ Use repl.it + uptimerobot
   https://www.youtube.com/watch?v=wtrTlzQ8rDo&ab_channel=TYPICALNINJA
 
 
+///修改///
+3,27,28 行
+
+
 ///簡寫///
 科學班:S
 數資班:M
@@ -33,4 +37,3 @@ try {
 await delay(秒數);
 
 
-3,27,28

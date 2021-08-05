@@ -1,47 +1,83 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
-//const auth = require('./auth.json'); //Terminal
+const auth = require('./auth.json'); //Terminal
 const data = require('./data.js')
 const client = new Discord.Client();
 
-//Who?
+//Who?//
 
 
-//Time
-const dateObject = new Date();
-const dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
-const year = dateObject.getFullYear()  //年(西元) 4digital
-const month = dateObject.getMonth()  //月 0~11
-const date = (dateObject.getDate()+1) //日 1~31
-const day = (dateObject.getDay()+1)  //星期 0~5
+///Time///
+var dateObject = new Date();
+//var dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+//var year = dateObject.getFullYear()  //年(西元) 4digital
+//var month = dateObject.getMonth()  //月 0~11
+//var date = dateObject.getDate() //日 1~31
+//var day = dateObject.getDay()  //星期 0~5
+//var hours = (dateObject.getHours()+8)
+//var minutes = dateObject.getMinutes()
+//var seconds = dateObject.getSeconds()
 
-//Delay
+function TWtime() {
+    let dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone : 'Asia/Taipei'})
+    let TimeString = `${dateObject_TW}`
+    return TimeString
+}
+function Wtime() {
+    let dateObject_W = new Date()
+    let TimeString = `${dateObject_W}`
+    return TimeString
+}
+
+//Delay//
 function delay(ms) {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
 }
-////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 //登入資訊
-client.login(process.env.DJS_TOKEN); //Heroku
-//client.login(auth.key); //Terminal
+const login_info = 'Terminal' //可修改
+const emb_logininfo = new Discord.MessageEmbed()
+    .setColor('#4169e1')
+    .setTitle(`Bot info`)
+    .setDescription(`\u200B`)
+    .addFields({name: `**Login info**`, value: `Logged in as AAAA#3290 on ${login_info}`})
+if (login_info === 'Terminal') {
+    client.login(auth.key);
+}
+else if (login_info === 'Heroku') {
+    client.login(process.env.DJS_TOKEN);
+}
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`login info = ${login_info}`);
 });
+
+////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
+
+
 ///////////////Embed///////////////
-const embtime = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`目前時間 : ${dateObject}`)
-    .setAuthor('上課小幫手')
-const embtime_TW = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`目前時間 : ${dateObject_TW}`)
-    .setAuthor('上課小幫手')
+////時間////
+///UTC+0///
+function time() {
+    const emb_time = new Discord.MessageEmbed()
+        .setColor('#4169e1')
+        .setTitle(`目前時間 : ${Wtime()}\n:3`)
+    return emb_time
+}
+///UTC+8///
+function time_TW() {
+    const emb_time_TW = new Discord.MessageEmbed()
+        .setColor('#4169e1')
+        .setTitle(`目前時間 : ${TWtime()}\n:3`)
+    return emb_time_TW
+}
+
 ////課表////
 ///暑輔///
 //Mon//
-const embtimetablemonall = new Discord.MessageEmbed()
+const emb_timetablemonall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
     .setAuthor('上課小幫手')
@@ -56,7 +92,7 @@ const embtimetablemonall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Tue//
-const embtimetabletueall = new Discord.MessageEmbed()
+const emb_timetabletueall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
     .setAuthor('上課小幫手')
@@ -71,7 +107,7 @@ const embtimetabletueall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n朱中岳`, value: '**[數學](https://meet.google.com/lookup/gi22oanrh4)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Wed//
-const embtimetablewedall = new Discord.MessageEmbed()
+const emb_timetablewedall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
     .setAuthor('上課小幫手')
@@ -86,7 +122,7 @@ const embtimetablewedall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n黃美娟`, value: '**[地科](https://meet.google.com/lookup/agkx73i2bt)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Thu//
-const embtimetablethuall = new Discord.MessageEmbed()
+const emb_timetablethuall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
     .setAuthor('上課小幫手')
@@ -101,7 +137,7 @@ const embtimetablethuall = new Discord.MessageEmbed()
     .addFields({name: `第七節\n15:25 ~ 16:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
     .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
 //Fri//
-const embtimetablefriall = new Discord.MessageEmbed()
+const emb_timetablefriall = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`這是今天的課表`)
     .setAuthor('上課小幫手')
@@ -118,7 +154,7 @@ const embtimetablefriall = new Discord.MessageEmbed()
 
 ////科學班題目////
 //110//
-const embS110 = new Discord.MessageEmbed()
+const emb_S110 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('110 年科學班甄選')
     .setAuthor('題庫小幫手')
@@ -126,7 +162,7 @@ const embS110 = new Discord.MessageEmbed()
     .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/MADO14)**'})
     .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/YOQ45L)**'})
 //109//
-const embS109 = new Discord.MessageEmbed()
+const emb_S109 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('109 年科學班甄選')
     .setAuthor('題庫小幫手')
@@ -134,7 +170,7 @@ const embS109 = new Discord.MessageEmbed()
     .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/DgDj16)**'})
     .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/7rl4aN)**'})
 //108//
-const embS108 = new Discord.MessageEmbed()
+const emb_S108 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('108 年科學班甄選')
     .setAuthor('題庫小幫手')
@@ -142,7 +178,7 @@ const embS108 = new Discord.MessageEmbed()
     .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/qgXVDn)**'})
     .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/eEaGRW)**'})
 //107//
-const embS107 = new Discord.MessageEmbed()
+const emb_S107 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('107 年科學班甄選')
     .setAuthor('題庫小幫手')
@@ -150,7 +186,7 @@ const embS107 = new Discord.MessageEmbed()
     .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/zeX1ya)**'})
     .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/MAD6pL)**'})
 //106//
-const embS106 = new Discord.MessageEmbed()
+const emb_S106 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('106 年科學班甄選')
     .setAuthor('題庫小幫手')
@@ -161,7 +197,7 @@ const embS106 = new Discord.MessageEmbed()
 ////數資班題目////
 ////109////
 //生物//
-const embM109B = new Discord.MessageEmbed()
+const emb_M109B = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('109 學年數資班甄選')
     .setAuthor('題庫小幫手')
@@ -169,7 +205,7 @@ const embM109B = new Discord.MessageEmbed()
     .addFields({name: `第一階段`, value: '**[Google Drive](https://example.com)** \n **[直接下載](https://example.com)**'})
     .addFields({name: `第二階段`, value: '**[Google Drive](https://example.com)** \n **[直接下載](https://example.com)**'})
 //地科//
-const embM109G = new Discord.MessageEmbed()
+const emb_M109G = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('109 學年數資班甄選')
     .setAuthor('題庫小幫手')
@@ -192,7 +228,7 @@ client.on('message', async msg => {
 
     //字串分析
     try {
-        if (msg.content.startsWith(data.prefix_A)){
+        if (msg.content.startsWith(data.prefix_A)) {
             const cmd = msg.content.substring(data.prefix_A.length).split(' ');
             switch (cmd[0]) {
                 //Command
@@ -200,36 +236,42 @@ client.on('message', async msg => {
                 case 'ping':
                     msg.channel.send('pong !');
                     break;
-                case 'test':
-                    msg.channel.send(embtime);
-                    msg.channel.send(embtime_TW);
+                case 'time':
+                    msg.channel.send(time_TW())
+                    break;
+                case 'botinfo':
+                    msg.channel.send(emb_logininfo)
+                    break;
+                case 'worldtime':
+                    msg.channel.send(time())
                     break;
                 //Basic
                 case '課表':
+                    var day = dateObject.getDay()  //星期 0~5
                     if (day > '0' & day < '6') {
                         if (day == 1) {
-                            msg.channel.send(embtime);
-                            msg.channel.send(embtimetablemonall);
+                            msg.channel.send(time_TW())
+                            msg.channel.send(emb_timetablemonall);
                             break;
                         }
                         else if (day == 2) {
-                            msg.channel.send(embtime);
-                            msg.channel.send(embtimetabletueall);
+                            msg.channel.send(time_TW())
+                            msg.channel.send(emb_timetabletueall);
                             break;
                         }
                         else if (day == 3) {
-                            msg.channel.send(embtime);
-                            msg.channel.send(embtimetablewedall);
+                            msg.channel.send(time_TW())
+                            msg.channel.send(emb_timetablewedall);
                             break;
                         }
                         else if (day == 4) {
-                            msg.channel.send(embtime);
-                            msg.channel.send(embtimetablethuall);
+                            msg.channel.send(time_TW())
+                            msg.channel.send(emb_timetablethuall);
                             break;
                         }
                         else if (day == 5) {
-                            msg.channel.send(embtime);
-                            msg.channel.send(embtimetablefriall);
+                            msg.channel.send(time_TW())
+                            msg.channel.send(emb_timetablefriall);
                             break;
                         }
                     }
@@ -248,26 +290,26 @@ client.on('message', async msg => {
                     break;
                 //科學班題目
                 case 'S110':
-                    msg.channel.send(embS110);
+                    msg.channel.send(emb_S110);
                     break;
                 case 'S109':
-                    msg.channel.send(embS109);
+                    msg.channel.send(emb_S109);
                     break;
                 case 'S108':
-                    msg.channel.send(embS108);
+                    msg.channel.send(emb_S108);
                     break;
                 case 'S107':
-                    msg.channel.send(embS107);
+                    msg.channel.send(emb_S107);
                     break;
                 case 'S106':
-                    msg.channel.send(embS106);
+                    msg.channel.send(emb_S106);
                     break;
                 //數資班題目
                 case 'M109生':
-                    msg.channel.send(embM109B);
+                    msg.channel.send(emb_M109B);
                     break;
                 case 'M109地':
-                    msg.channel.send(embM109G);
+                    msg.channel.send(emb_M109G);
                     break;
             }
         }
@@ -285,7 +327,7 @@ client.on('message', async msg => {
             var pre_suggestion = msg.content.toString();
             var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2))
             msg.delete({ timeout: 0 })
-            msg.channel.send('> ' + suggestion);
+            msg.channel.send('> ' + suggestion + '\n' + '    Submitted by ' + msg.author.username);
         }
 
     } catch (err) {
