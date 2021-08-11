@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
-const auth = require('./auth.json'); //Terminal
+//const auth = require('./auth.json'); //Terminal
 const data = require('./prefix.js')
 const client = new Discord.Client();
 
@@ -53,21 +53,21 @@ function getRandom(x){
 
 //登入資訊
 client.login(process.env.DJS_TOKEN);
-//const login_info = 'Heroku' //可修改
-//const emb_logininfo = new Discord.MessageEmbed()
-//    .setColor('#4169e1')
-//    .setTitle(`Bot info`)
-//    .setDescription(`\u200B`)
-//    .addFields({name: `**Login info**`, value: `Logged in as AAAA#3290 on ${login_info}`})
-//if (login_info === 'Terminal') {
-//    client.login(auth.key);
-//}
-//else if (login_info === 'Heroku') {
-//    client.login(process.env.DJS_TOKEN);
-//}
+const login_info = 'Heroku' //可修改
+const emb_logininfo = new Discord.MessageEmbed()
+    .setColor('#4169e1')
+    .setTitle(`Bot info`)
+    .setDescription(`\u200B`)
+    .addFields({name: `**Login info**`, value: `Logged in as AAAA#3290 on ${login_info}`})
+if (login_info === 'Terminal') {
+    client.login(auth.key);
+}
+else if (login_info === 'Heroku') {
+    client.login(process.env.DJS_TOKEN);
+}
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-//    console.log(`login info = ${login_info}`);
+    console.log(`login info = ${login_info}`);
 });
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
