@@ -1,11 +1,21 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
 const auth = require('./auth.json'); //Terminal
-const data = require('./data.js')
+const data = require('./prefix.js')
 const client = new Discord.Client();
 
-//Who?//
-
+//CHN count//
+//let chn_count = 0;
+//function CHNcount() {
+//    let chn_count += 1
+//    if (chn_count <= 5) {
+//        return chn_count
+//    }
+//    else {
+//        chn_count - 6
+//        return chn_count
+//    }
+//}
 
 ///Time///
 var dateObject = new Date();
@@ -36,8 +46,13 @@ function delay(ms) {
     });
 }
 
+//隨機取數//
+function getRandom(x){
+    return Math.floor(Math.random()*x);
+};
+
 //登入資訊
-const login_info = 'Terminal' //可修改
+const login_info = 'Heroku' //可修改
 const emb_logininfo = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle(`Bot info`)
@@ -53,7 +68,6 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`login info = ${login_info}`);
 });
-
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 
@@ -216,6 +230,12 @@ const emb_M109G = new Discord.MessageEmbed()
     .addFields({name: `第二階段`, value: '**[Google Drive](https://example.com)**'})
     .addFields({name: `\u200B`, value: '**[直接下載](https://example.com)**'})
 
+//client.on('message', async msg => {
+//    if (msg.content.toLowerCase().includes('spam')) {
+//        msg.reply('飲酒過量，有害（礙）健康。\n酒後不開車，安全有保障。\n飲酒過量，害人害己。\n未滿十八歲禁止飲酒。\n短時間內大量灌酒會使人立即喪命。\n||I love to spam||')
+//    }
+//})
+
 client.on('message', async msg => {
     //前置判斷
     try {
@@ -226,10 +246,35 @@ client.on('message', async msg => {
         return;
     }
 
+    //Easter Egg
+    if (msg.content === '老婆') {
+        msg.reply('你沒有老婆!!')
+    }
+    if (msg.content.toLowerCase() === 'trash') {
+        msg.reply('你才是 ! ! !')
+    }
+    if (msg.content.toLowerCase().includes('酒')) {
+        msg.channel.send(`${msg.member.user}你又喝酒了?\n\n溫馨提醒 : 飲酒過量，有害健康。酒後不開 Discord，安全有保障。\n喔還有，"喝 Discord 不用酒，用酒不喝 Discord。" 嗝~(醉倒)`)
+    }
+
+    //文字分析
+    if (msg.content.toLowerCase() === 'hi' || msg.content.toLowerCase() === 'hello') {
+        msg.channel.send('Hello,' + `${msg.member.user}`)
+    }
+    if (msg.content === '早安') {
+        msg.channel.send(`早安~ ${msg.member.user}`)
+    }
+    if (msg.content === '午安') {
+        msg.channel.send(`午安~ ${msg.member.user}`)
+    }
+    if (msg.content === '晚安') {
+        msg.channel.send(`晚安~ ${msg.member.user}`)
+    }
+
     //字串分析
     try {
-        if (msg.content.startsWith(data.prefix_A)) {
-            const cmd = msg.content.substring(data.prefix_A.length).split(' ');
+        if (msg.content.startsWith(data.A)) {
+            const cmd = msg.content.substring(data.A.length).split(' ');
             switch (cmd[0]) {
                 //Command
                 //Test
@@ -281,13 +326,6 @@ client.on('message', async msg => {
                         msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
                     }
-                //Easter Egg
-                case '老婆':
-                    msg.reply('你沒有老婆!!');
-                    break;
-                case 'trash':
-                    msg.reply('你才是 ! ! !');
-                    break;
                 //科學班題目
                 case 'S110':
                     msg.channel.send(emb_S110);
@@ -313,8 +351,8 @@ client.on('message', async msg => {
                     break;
             }
         }
-        if (msg.content.startsWith(data.prefix_B)){
-            const cmd = msg.content.substring(data.prefix_B.length).split(' ');
+        if (msg.content.startsWith(data.B)){
+            const cmd = msg.content.substring(data.B.length).split(' ');
             switch (cmd[0]) {
                 case 'ping':
                     msg.channel.send('pong !');
@@ -322,12 +360,34 @@ client.on('message', async msg => {
                     
             }
         }
-        
-        if (msg.content.startsWith(data.prefix_S)){
+
+        //建議
+        if (msg.content.startsWith(data.S)){
             var pre_suggestion = msg.content.toString();
-            var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2))
-            msg.delete({ timeout: 0 })
+            var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2));
+            msg.delete({ timeout: 0 });
             msg.channel.send('> ' + suggestion + '\n' + '    Submitted by ' + msg.author.username);
+        }
+
+        //好人卡
+        if (msg.content.startsWith('卡片 ')) {
+            var friendzone = msg.content.toString();
+            msg.delete({ timeout: 0 });
+            var friend = friendzone.slice(-(friendzone.length-3));
+            msg.channel.send(`${friend}我很抱歉，但${msg.member.user}似乎給你發了一張卡片`);
+            if (getRandom(3) == 0) {
+                msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/874657393357750312/1.jpg`);
+            }
+            else if (getRandom(3) == 1) {
+                msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/874657429634285598/2.png`);
+            }
+            else if (getRandom(3) == 2) {
+                msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/874657464560275626/070334418cadc60c.png`);
+            }
+            if (getRandom(5) == 3) {
+                
+            }
+            //msg.channel.send (CHNcount())
         }
 
     } catch (err) {
