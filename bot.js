@@ -59,11 +59,10 @@ const emb_logininfo = new Discord.MessageEmbed()
     .setDescription(`\u200B`)
     .addFields({name: `**Login info**`, value: `Logged in as AAAA#3290 on ${login_info}`})
 if (login_info === 'Terminal') {
-
+    const auth = require('./auth.json');
     client.login(auth.key);
 }
 else if (login_info === 'Heroku') {
-    const auth = require('./auth.json');
     client.login(process.env.DJS_TOKEN);
 }
 client.on('ready', () => {
