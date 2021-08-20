@@ -1,20 +1,15 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const Discord = require('discord.js');
-const data = require('./prefix.js')
+const prefix = require('./prefix.js');
+const request = require('request');
+const cheerio = require('cheerio');
 const client = new Discord.Client();
+var fs = require('fs');
+const { head } = require('request');
 
-//CHN count//
-//let chn_count = 0;
-//function CHNcount() {
-//    let chn_count += 1
-//    if (chn_count <= 5) {
-//        return chn_count
-//    }
-//    else {
-//        chn_count - 6
-//        return chn_count
-//    }
-//}
+//Server ID//
+const AAAADiscordBot = 864375027935608852
+const 玩WB的台灣人 = 849308660886929448
 
 ///Time///
 var dateObject = new Date();
@@ -51,13 +46,7 @@ function getRandom(x){
 };
 
 //登入資訊
-client.login(process.env.DJS_TOKEN);
-const login_info = 'Heroku' //可修改
-const emb_logininfo = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`Bot info`)
-    .setDescription(`\u200B`)
-    .addFields({name: `**Login info**`, value: `Logged in as AAAA#3290 on ${login_info}`})
+const login_info = 'Heroku' //可修改  (Heroku/Terminal)
 if (login_info === 'Terminal') {
     const auth = require('./auth.json');
     client.login(auth.key);
@@ -67,10 +56,11 @@ else if (login_info === 'Heroku') {
 }
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    console.log(`login info = ${login_info}`);
+    console.log(`Login platform = ${login_info}`);
+    console.log('V 2.1.0');
 });
-////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
+////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
 ///////////////Embed///////////////
 ////時間////
@@ -88,6 +78,16 @@ function time_TW() {
         .setTitle(`目前時間 : ${TWtime()}\n:3`)
     return emb_time_TW
 }
+
+////Thx////
+const emb_thx = new Discord.MessageEmbed()
+    .addFields(
+        { name: '\u200B', value: '**Developer**' },
+        { name: '𝕷𝖊𝖌𝖊𝖓𝖉•SHARK', value: '\u200B', inline: true },
+        { name: '꧁AAAA꧂', value: '\u200B', inline: true },
+        { name: '\u200B', value: '**Special Thanks to**'},
+        { name: 'DaVince', value: '\u200B', inline: true },
+    );
 
 ////課表////
 ///暑輔///
@@ -238,7 +238,7 @@ const emb_M109G = new Discord.MessageEmbed()
 //})
 
 client.on('message', async msg => {
-    //前置判斷
+    ////前置判斷////
     try {
         if (!msg.guild || !msg.member) return;
         if (!msg.member.user) return;
@@ -247,7 +247,8 @@ client.on('message', async msg => {
         return;
     }
 
-    //Easter Egg
+    ////文字分析////
+    ///Easter Egg///
     if (msg.content === '老婆') {
         msg.reply('你沒有老婆!!')
     }
@@ -257,73 +258,129 @@ client.on('message', async msg => {
     if (msg.content.toLowerCase().includes('酒')) {
         msg.channel.send(`${msg.member.user}你又喝酒了?\n\n溫馨提醒 : 飲酒過量，有害健康。酒後不開 Discord，安全有保障。\n喔還有，"喝 Discord 不用酒，用酒不喝 Discord。" 嗝~(醉倒)`)
     }
-
-    //文字分析
+    if (msg.content.toLowerCase().includes('等我') || msg.content.toLowerCase().includes('等妳') || msg.content.toLowerCase().includes('等你')) {
+        msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/875267221469945866/unknown.png`)
+    }
+    if (msg.content.toLowerCase().includes(';-;') || msg.content.toLowerCase().includes('哭') || msg.content.includes('QwQ')) {
+        msg.channel.send(`${msg.member.user}` + '怎麼了呀?')
+        if (getRandom(3) == 0) {
+            msg.channel.send('沒事的 乖 XD')
+            msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875271795371024415/sticker_-_2021-01-27T115639.087.png')
+        }
+    }
+    if (msg.content.toLowerCase().includes('掰')) {
+        msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875270242031517726/sticker--.png')
+    }
     if (msg.content.toLowerCase() === 'hi' || msg.content.toLowerCase() === 'hello') {
-        msg.channel.send('Hello,' + `${msg.member.user}`)
+        msg.channel.send('Hello,' + `${msg.member.user}` + '，今天心情如何呀?')
+        msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875182203322122250/sticker_26.png')
     }
     if (msg.content === '早安') {
-        msg.channel.send(`早安~ ${msg.member.user}`)
+        await delay(300);
+        if (msg.guild.id == 玩WB的台灣人) {
+            msg.channel.send(`早安~ ${msg.member.user}  ,愛麗絲 妳別激動 . . .`)
+        }
+        else {
+            msg.channel.send(`早安~ ${msg.member.user}`)
+        }
+        msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875181934802792459/sticker_9.png')
     }
     if (msg.content === '午安') {
-        msg.channel.send(`午安~ ${msg.member.user}`)
+        await delay(300);
+        msg.channel.send(`加油 ${msg.member.user} ，剩下半天了!`)
+        if (msg.guild.id == 玩WB的台灣人) {
+            msg.channel.send(`愛麗絲 你有空嗎?  我們去喝茶 ~`)
+            msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875194906778411048/sticker_49.png')
+        }
     }
     if (msg.content === '晚安') {
+        await delay(300);
         msg.channel.send(`晚安~ ${msg.member.user}`)
+        msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195042908753920/sticker_83.png')
+        if (msg.guild.id == 玩WB的台灣人) {
+            msg.channel.send(`愛麗絲 該吃藥了(拉走)`)
+            msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195937344061470/sticker_36.png')
+        }
     }
 
-    //字串分析
+    ////字串分析////
+    ///A///
     try {
-        if (msg.content.startsWith(data.A)) {
-            const cmd = msg.content.substring(data.A.length).split(' ');
+        if (msg.content.startsWith(prefix.A)) {
+            const cmd = msg.content.substring(prefix.A.length).split(' ');
             switch (cmd[0]) {
                 //Command
                 //Test
                 case 'ping':
-                    msg.channel.send('pong !');
+                    msg.channel.send('Caculating ping . . .').then(resultMessage => {
+                        const ping = resultMessage.createdTimestamp - msg.createdTimestamp
+                        const emb_ping = new Discord.MessageEmbed()
+                            .setColor('#4169e1')
+                            .setTitle('🏓 Pong !')
+                            .setDescription('\u200B')
+                            .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
+                            .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
+                            .setTimestamp();
+                        resultMessage.delete();
+                        resultMessage.channel.send(emb_ping);
+                    })
                     break;
                 case 'time':
-                    msg.channel.send(time_TW())
+                    msg.channel.send(time_TW());
                     break;
-                case 'botinfo':
-                    msg.channel.send(emb_logininfo)
-                    break;
+
                 case 'worldtime':
-                    msg.channel.send(time())
+                    msg.channel.send(time());
+                    break;
+
+                case 'botinfo':
+                    msg.channel.send('為啥這一行死不消失 ；-；').then(resultMessage => {
+                        const ping = (resultMessage.createdTimestamp - msg.createdTimestamp)
+                        const emb_botinfo = new Discord.MessageEmbed()
+                            .setColor('#4169e1')
+                            .setTitle(`Bot info`)
+                            .addFields({name: `**Login info**`, value: `Platform : ${login_info}`})
+                            .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
+                            .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
+                            .setFooter('V 2.1.0')
+                            .setTimestamp();
+                        resultMessage.delete();
+                        resultMessage.channel.send(emb_botinfo);
+                    });
                     break;
                 //Basic
                 case '課表':
                     var day = dateObject.getDay()  //星期 0~5
                     if (day > '0' & day < '6') {
                         if (day == 1) {
-                            msg.channel.send(time_TW())
+                            msg.channel.send(time_TW());
                             msg.channel.send(emb_timetablemonall);
                             break;
                         }
                         else if (day == 2) {
-                            msg.channel.send(time_TW())
+                            msg.channel.send(time_TW());
                             msg.channel.send(emb_timetabletueall);
                             break;
                         }
                         else if (day == 3) {
-                            msg.channel.send(time_TW())
+                            msg.channel.send(time_TW());
                             msg.channel.send(emb_timetablewedall);
                             break;
                         }
                         else if (day == 4) {
-                            msg.channel.send(time_TW())
+                            msg.channel.send(time_TW());
                             msg.channel.send(emb_timetablethuall);
                             break;
                         }
                         else if (day == 5) {
-                            msg.channel.send(time_TW())
+                            msg.channel.send(time_TW());
                             msg.channel.send(emb_timetablefriall);
                             break;
                         }
                     }
                     else {
                         msg.reply('今天不用上課啦\n||ばか。。。||\n不過還是給你看一下課表好了');
-                        await delay(3000)
+                        await delay(3000);
                         msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
                     }
@@ -352,25 +409,121 @@ client.on('message', async msg => {
                     break;
             }
         }
-        if (msg.content.startsWith(data.B)){
-            const cmd = msg.content.substring(data.B.length).split(' ');
+
+        ///WB///
+        if (msg.content.startsWith(prefix.WBStats)) {
+            const cmd = msg.content.substring(prefix.WBStats.length).split(' ');
+            switch (cmd[0]) {
+                ////Command////
+                ///Test///
+                case 'ping':
+                    msg.channel.send('🏓 Pong !');
+                    break;
+                ///Stats///
+                //Add new
+                case 'new':
+                    var URL = msg.content.toString();
+                    var player_ID = URL.slice(-(URL.length-45));
+                    msg.delete({ timeout: 0 });
+                    client.playerID = require("./playerID.json");
+                    client.playerID[msg.author.id] = {
+                        playerID: player_ID,
+                    };
+                    let stats_URL = client.playerID[msg.author.id].playerID;
+                    let author = msg.author.username;
+                    fs.writeFile("./playerID.json", JSON.stringify(client.playerID, null, 4), err => {
+                        if (err) {
+                            throw err;
+                        }
+                        else {
+                            msg.channel.send ({
+                                embed: {
+                                    color: "#00FF00",
+                                    description: `Congrats ${author} !\n\nNow, please check if this is the right stats`,
+                                }
+                            });
+                            msg.channel.send (`https://stats.warbrokers.io/players/i/${stats_URL}`);
+                        };
+                    });
+                    break;
+                //Show stats
+                case 'stats':
+                    client.playerID = require("./playerID.json");
+                    if (!client.playerID[msg.author.id]) {return};
+                    var user_ID = client.playerID[msg.author.id].playerID;
+                    msg.channel.send({
+                        embed: {
+                            color: "0000ff",
+                            description: `[Here is your full stats](https://stats.warbrokers.io/players/i/${user_ID})`,
+                        }
+                    });
+                //Show KD
+                case 'KD':
+                    msg.channel.send({
+                        embed: {
+                            color: "ff0000",
+                            description: '***This might take a few seconds . . .***',
+                        }
+                    }).then(msg => msg.delete({timeout:"3000"}));
+                    client.playerID = require("./playerID.json");
+                    if (!client.playerID[msg.author.id]) {return};
+                    var user_ID = client.playerID[msg.author.id].playerID;
+                    request(`https://stats.warbrokers.io/players/i/${user_ID}`,
+                        (error, response, html) => {
+                            if (!error && response.statusCode == 200) {
+                                const $ = cheerio.load(html);
+                                const name_long = $("head > title").text().toString();
+                                const name = name_long.replace(' - War Brokers','');
+                                const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "");
+                                const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "");
+                                let currentKD = (kills / deaths);
+                                let rounded_currentKD = Math.round(currentKD * 10) / 10;
+                                let nextKD = (rounded_currentKD + 0.05);
+                                let neededKills = (nextKD * deaths - kills);
+                                let rounded_neededKills = Math.round(neededKills * 1) / 1;
+                                let KDdrop = (rounded_currentKD - 0.06);
+                                let neededDeaths = (kills / KDdrop - deaths);
+                                let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
+                                var emb_KD = new Discord.MessageEmbed()
+                                    .setColor('#fccbcb')
+                                    .setTitle(`Player name : ${name}`)
+                                    .addFields(
+                                        {
+                                            name: ('Your KD is : `' + rounded_currentKD + '`'),
+                                            value: ('You need`' + `${rounded_neededKills}` + '` kills to increase KD\nYou can handle `' + `${rounded_neededDeaths}` + '` deaths before your KD drops'),
+                                            inline: true
+                                        },
+                                    );
+                                msg.channel.send(`${msg.author.toString()}, here is your KD`);
+                                msg.channel.send(emb_KD);
+                            };
+                    });
+            };
+        };
+
+
+        ///Test///
+        if (msg.content.startsWith(prefix.Test)) {
+            const cmd = msg.content.substring(prefix.Test.length).split(' ');
             switch (cmd[0]) {
                 case 'ping':
-                    msg.channel.send('pong !');
-                    break;
-                    
-            }
-        }
+                    msg.channel.send('🏓 Pong !');
+            };//
+        };//
 
-        //建議
-        if (msg.content.startsWith(data.S)){
+        ///S///
+        if (msg.content.startsWith(prefix.S)){
             var pre_suggestion = msg.content.toString();
             var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2));
             msg.delete({ timeout: 0 });
-            msg.channel.send('> ' + suggestion + '\n' + '    Submitted by ' + msg.author.username);
-        }
+            msg.channel.send('```----------- Suggestion -----------```');
+            msg.channel.send('> ' + suggestion + '\n' + '    Submitted by ' + msg.author.toString()).then((msg) => {
+                msg.react("👍");
+                msg.react("👎");
+            })
+        };
 
-        //好人卡
+        ///卡片///
         if (msg.content.startsWith('卡片 ')) {
             var friendzone = msg.content.toString();
             msg.delete({ timeout: 0 });
@@ -384,14 +537,13 @@ client.on('message', async msg => {
             }
             else if (getRandom(3) == 2) {
                 msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/874657464560275626/070334418cadc60c.png`);
+                if (getRandom(5) == 3) {
+                    msg.channel.send('我要先去洗個澡\n     `C.H.N [2021.08.10 16:44]`')
+                }
             }
-            if (getRandom(5) == 3) {
-                
-            }
-            //msg.channel.send (CHNcount())
-        }
-
+            //msg.channel.send (CHNcount());
+        };
     } catch (err) {
         console.log('OnMessageError', err);
-    }
+    };
 });

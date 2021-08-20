@@ -1,5 +1,6 @@
 module.exports = {
     A: 'A ',
-    B: 'B ',
+    WBStats: 'WB ',
     S: 'S ',
+    Test: '$ ',
 }

@@ -34,6 +34,21 @@ try {
 
 
 ///Delay///
-await delay(秒數);
+await delay(毫秒);
 
 
+///Random///
+getRandom(數字)
+
+
+///Server ID///
+msg.guild.id
+
+
+///Github Description///
+1.新增
+2.修改
+3.增加
+4....
+---
+修復一些BUG
