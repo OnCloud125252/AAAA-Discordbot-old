@@ -58,7 +58,7 @@ else if (login_info === 'Heroku') {
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Login platform = ${login_info}`);
-    console.log('V 2.1.0');
+    console.log('V 2.2.1');
 });
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
@@ -67,15 +67,15 @@ client.on('ready', () => {
 ////時間////
 ///UTC+0///
 function time() {
-    const emb_time = new Discord.MessageEmbed();
-        .setColor('#4169e1');
+    const emb_time = new Discord.MessageEmbed()
+        .setColor('#4169e1')
         .setTitle(`目前時間 : ${Wtime()}\n:3`);
     return emb_time;
 };
 ///UTC+8///
 function time_TW() {
-    const emb_time_TW = new Discord.MessageEmbed();
-        .setColor('#4169e1');
+    const emb_time_TW = new Discord.MessageEmbed()
+        .setColor('#4169e1')
         .setTitle(`目前時間 : ${TWtime()}\n:3`);
     return emb_time_TW;
 };
