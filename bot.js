@@ -6,32 +6,33 @@ const cheerio = require('cheerio');
 const client = new Discord.Client();
 var fs = require('fs');
 const { head } = require('request');
+client.playerID = require("./playerID.json");
 
 //Server ID//
-const AAAADiscordBot = 864375027935608852
-const 玩WB的台灣人 = 849308660886929448
+const AAAADiscordBot = 864375027935608852;
+const 玩WB的台灣人 = 849308660886929448;
 
 ///Time///
 var dateObject = new Date();
 //var dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
-//var year = dateObject.getFullYear()  //年(西元) 4digital
-//var month = dateObject.getMonth()  //月 0~11
-//var date = dateObject.getDate() //日 1~31
-//var day = dateObject.getDay()  //星期 0~5
-//var hours = (dateObject.getHours()+8)
-//var minutes = dateObject.getMinutes()
-//var seconds = dateObject.getSeconds()
+//var year = dateObject.getFullYear();  //年(西元) 4digital
+//var month = dateObject.getMonth();  //月 0~11
+//var date = dateObject.getDate(); //日 1~31
+//var day = dateObject.getDay();  //星期 0~5
+//var hours = (dateObject.getHours()+8);
+//var minutes = dateObject.getMinutes();
+//var seconds = dateObject.getSeconds();
 
 function TWtime() {
-    let dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone : 'Asia/Taipei'})
-    let TimeString = `${dateObject_TW}`
-    return TimeString
-}
+    let dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone : 'Asia/Taipei'});
+    let TimeString = `${dateObject_TW}`;
+    return TimeString;
+};
 function Wtime() {
-    let dateObject_W = new Date()
-    let TimeString = `${dateObject_W}`
-    return TimeString
-}
+    let dateObject_W = new Date();
+    let TimeString = `${dateObject_W}`;
+    return TimeString;
+};
 
 //Delay//
 function delay(ms) {
@@ -53,31 +54,31 @@ if (login_info === 'Terminal') {
 }
 else if (login_info === 'Heroku') {
     client.login(process.env.DJS_TOKEN);
-}
+};
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Login platform = ${login_info}`);
     console.log('V 2.1.0');
 });
-
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
+
 
 ///////////////Embed///////////////
 ////時間////
 ///UTC+0///
 function time() {
-    const emb_time = new Discord.MessageEmbed()
-        .setColor('#4169e1')
-        .setTitle(`目前時間 : ${Wtime()}\n:3`)
-    return emb_time
-}
+    const emb_time = new Discord.MessageEmbed();
+        .setColor('#4169e1');
+        .setTitle(`目前時間 : ${Wtime()}\n:3`);
+    return emb_time;
+};
 ///UTC+8///
 function time_TW() {
-    const emb_time_TW = new Discord.MessageEmbed()
-        .setColor('#4169e1')
-        .setTitle(`目前時間 : ${TWtime()}\n:3`)
-    return emb_time_TW
-}
+    const emb_time_TW = new Discord.MessageEmbed();
+        .setColor('#4169e1');
+        .setTitle(`目前時間 : ${TWtime()}\n:3`);
+    return emb_time_TW;
+};
 
 ////Thx////
 const emb_thx = new Discord.MessageEmbed()
@@ -88,6 +89,7 @@ const emb_thx = new Discord.MessageEmbed()
         { name: '\u200B', value: '**Special Thanks to**'},
         { name: 'DaVince', value: '\u200B', inline: true },
     );
+
 
 ////課表////
 ///暑輔///
@@ -303,6 +305,7 @@ client.on('message', async msg => {
         }
     }
 
+
     ////字串分析////
     ///A///
     try {
@@ -323,16 +326,14 @@ client.on('message', async msg => {
                             .setTimestamp();
                         resultMessage.delete();
                         resultMessage.channel.send(emb_ping);
-                    })
+                    });
                     break;
                 case 'time':
                     msg.channel.send(time_TW());
                     break;
-
                 case 'worldtime':
                     msg.channel.send(time());
                     break;
-
                 case 'botinfo':
                     msg.channel.send('為啥這一行死不消失 ；-；').then(resultMessage => {
                         const ping = (resultMessage.createdTimestamp - msg.createdTimestamp)
@@ -348,6 +349,7 @@ client.on('message', async msg => {
                         resultMessage.channel.send(emb_botinfo);
                     });
                     break;
+
                 //Basic
                 case '課表':
                     var day = dateObject.getDay()  //星期 0~5
@@ -384,6 +386,7 @@ client.on('message', async msg => {
                         msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
                     }
+
                 //科學班題目
                 case 'S110':
                     msg.channel.send(emb_S110);
@@ -410,6 +413,7 @@ client.on('message', async msg => {
             }
         }
 
+
         ///WB///
         if (msg.content.startsWith(prefix.WBStats)) {
             const cmd = msg.content.substring(prefix.WBStats.length).split(' ');
@@ -419,6 +423,7 @@ client.on('message', async msg => {
                 case 'ping':
                     msg.channel.send('🏓 Pong !');
                     break;
+
                 ///Stats///
                 //Add new
                 case 'new':
@@ -446,17 +451,7 @@ client.on('message', async msg => {
                         };
                     });
                     break;
-                //Show stats
-                case 'stats':
-                    client.playerID = require("./playerID.json");
-                    if (!client.playerID[msg.author.id]) {return};
-                    var user_ID = client.playerID[msg.author.id].playerID;
-                    msg.channel.send({
-                        embed: {
-                            color: "0000ff",
-                            description: `[Here is your full stats](https://stats.warbrokers.io/players/i/${user_ID})`,
-                        }
-                    });
+
                 //Show KD
                 case 'KD':
                     msg.channel.send({
@@ -474,8 +469,8 @@ client.on('message', async msg => {
                                 const $ = cheerio.load(html);
                                 const name_long = $("head > title").text().toString();
                                 const name = name_long.replace(' - War Brokers','');
-                                const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "");
-                                const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "");
+                                const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                                const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                                 let currentKD = (kills / deaths);
                                 let rounded_currentKD = Math.round(currentKD * 10) / 10;
                                 let nextKD = (rounded_currentKD + 0.05);
@@ -490,26 +485,90 @@ client.on('message', async msg => {
                                     .addFields(
                                         {
                                             name: ('Your KD is : `' + rounded_currentKD + '`'),
-                                            value: ('You need`' + `${rounded_neededKills}` + '` kills to increase KD\nYou can handle `' + `${rounded_neededDeaths}` + '` deaths before your KD drops'),
+                                            value: ('You need `' + `${rounded_neededKills}` + '` kills to increase KD\nYou can handle `' + `${rounded_neededDeaths}` + '` deaths before your KD drops'),
                                             inline: true
+                                        },
+                                        {
+                                            name: ('Overview :'),
+                                            value: ('Kills = `' + `${kills}` + '`\nDeaths = `' + `${deaths}` + '`'),
+                                        },
+                                        {
+                                            name: ("Here's your full stats :"),
+                                            value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
                                         },
                                     );
                                 msg.channel.send(`${msg.author.toString()}, here is your KD`);
                                 msg.channel.send(emb_KD);
                             };
                     });
+                    break;
+
+                //Show stats
+                case 'stats':
+                    if (!client.playerID[msg.author.id]) {return};
+                    var user_ID = client.playerID[msg.author.id].playerID;
+                    msg.channel.send({
+                        embed: {
+                            color: "0000ff",
+                            description: `[Here is your full stats](https://stats.warbrokers.io/players/i/${user_ID})`,
+                        }
+                    });
+                    break;
             };
         };
 
 
-        ///Test///
-        if (msg.content.startsWith(prefix.Test)) {
-            const cmd = msg.content.substring(prefix.Test.length).split(' ');
-            switch (cmd[0]) {
-                case 'ping':
-                    msg.channel.send('🏓 Pong !');
-            };//
-        };//
+        ///KD///
+        if (msg.content.startsWith(prefix.KD)) {
+            msg.channel.send({
+                embed: {
+                    color: "ff0000",
+                    description: '***This might take a few seconds . . .***',
+                }
+            }).then(msg => msg.delete({timeout:"3000"}));
+            client.playerID = require("./playerID.json");
+            if (!client.playerID[msg.author.id]) {return};
+            var user_ID = client.playerID[msg.author.id].playerID;
+            request(`https://stats.warbrokers.io/players/i/${user_ID}`,
+                (error, response, html) => {
+                    if (!error && response.statusCode == 200) {
+                        const $ = cheerio.load(html);
+                        const name_long = $("head > title").text().toString();
+                        const name = name_long.replace(' - War Brokers','');
+                        const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                        const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                        let currentKD = (kills / deaths);
+                        let rounded_currentKD = Math.round(currentKD * 10) / 10;
+                        let nextKD = (rounded_currentKD + 0.05);
+                        let neededKills = (nextKD * deaths - kills);
+                        let rounded_neededKills = Math.round(neededKills * 1) / 1;
+                        let KDdrop = (rounded_currentKD - 0.06);
+                        let neededDeaths = (kills / KDdrop - deaths);
+                        let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
+                        var emb_KD = new Discord.MessageEmbed()
+                            .setColor('#fccbcb')
+                            .setTitle(`玩家名稱 : ${name}`)
+                            .addFields(
+                                {
+                                    name: ('您的 KD 值 : `' + rounded_currentKD + '`'),
+                                    value: ('您需要 `' + `${rounded_neededKills}` + '` 次擊殺來增加 KD 值\n您可以在 KD 值下降之前死亡 `' + `${rounded_neededDeaths}` + '` 次'),
+                                    inline: true
+                                },
+                                {
+                                    name: ('目前狀況 :'),
+                                    value: ('擊殺次數 = `' + `${kills}` + '`\n死亡次數 = `' + `${deaths}` + '`'),
+                                },
+                                {
+                                    name: ("這是您的完整統計數據 :"),
+                                    value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
+                                },
+                            );
+                        msg.channel.send(`${msg.author.toString()}, 這是您的 KD 數據`);
+                        msg.channel.send(emb_KD);
+                    };
+            });
+        };
+
 
         ///S///
         if (msg.content.startsWith(prefix.S)){
@@ -523,6 +582,7 @@ client.on('message', async msg => {
             })
         };
 
+        
         ///卡片///
         if (msg.content.startsWith('卡片 ')) {
             var friendzone = msg.content.toString();
@@ -542,6 +602,32 @@ client.on('message', async msg => {
                 }
             }
             //msg.channel.send (CHNcount());
+        };
+
+
+        ///Test///
+        if (login_info === 'Terminal') {
+        if (msg.content.startsWith(prefix.Test)) {
+        const cmd = msg.content.substring(prefix.Test.length).split(' ');
+        switch (cmd[0]) {
+        //These line will only works when ${login_info} === 'Terminal'///////////////////////////////////////////////////////////////////////////////////////////
+        case 'ping':
+            msg.channel.send('Caculating ping . . .').then(resultMessage => {
+                const ping = resultMessage.createdTimestamp - msg.createdTimestamp
+                const emb_ping = new Discord.MessageEmbed()
+                    .setColor('#4169e1')
+                    .setTitle('🏓 Pong !')
+                    .setDescription('\u200B')
+                    .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
+                    .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
+                    .setTimestamp();
+                resultMessage.delete();
+                resultMessage.channel.send(emb_ping);
+            });
+            break;
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        };
+        };
         };
     } catch (err) {
         console.log('OnMessageError', err);
