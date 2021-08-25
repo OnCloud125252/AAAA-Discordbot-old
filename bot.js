@@ -6,8 +6,8 @@ const cheerio = require('cheerio');
 const client = new Discord.Client();
 var fs = require('fs');
 const { head } = require('request');
-client.playerID = require("./playerID.json");
-client.memeURL = require("./memeURL.json");
+//client.playerID = require("./playerID.json");
+//client.memeURL = require("./memeURL.json");
 //client.memeCount = require("./memeCount.json");
 
 //Server ID//
