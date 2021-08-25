@@ -7,6 +7,8 @@ const client = new Discord.Client();
 var fs = require('fs');
 const { head } = require('request');
 client.playerID = require("./playerID.json");
+client.memeURL = require("./memeURL.json");
+//client.memeCount = require("./memeCount.json");
 
 //Server ID//
 const AAAADiscordBot = 864375027935608852;
@@ -48,6 +50,7 @@ function getRandom(x){
 
 //登入資訊
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
+const version = '2.3.1' //可修改  (版本)
 if (login_info === 'Terminal') {
     const auth = require('./auth.json');
     client.login(auth.key);
@@ -58,7 +61,7 @@ else if (login_info === 'Heroku') {
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Login platform = ${login_info}`);
-    console.log('V 2.2.1');
+    console.log(`V ${version}`);
 });
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
@@ -343,7 +346,7 @@ client.on('message', async msg => {
                             .addFields({name: `**Login info**`, value: `Platform : ${login_info}`})
                             .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
                             .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
-                            .setFooter('V 2.1.0')
+                            .setFooter(`V ${version}`)
                             .setTimestamp();
                         resultMessage.delete();
                         resultMessage.channel.send(emb_botinfo);
@@ -410,8 +413,37 @@ client.on('message', async msg => {
                 case 'M109地':
                     msg.channel.send(emb_M109G);
                     break;
-            }
-        }
+
+                //Post an invite link
+                case 'invite':
+                    let invite_minutes = cmd[1];
+                    let invite_people = cmd[2];
+                    msg.delete();
+                    if (invite_minutes) {
+                        if (invite_people) {
+                            if (invite_minutes > 60) {
+                                msg.reply("You can't make the invite expires longer than 60 minutes").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                            }
+                            else {
+                                let invite = await msg.channel.createInvite(
+                                    {
+                                    maxAge: invite_minutes * 60 , // maximum time for the invite, in seconds
+                                    maxUses: invite_people // maximum times it can be used
+                                    },
+                                    `Requested with command by ${msg.author.tag}`).catch(console.log);
+                                msg.reply(invite ? "Here's your invite: \n\n" + '<' + `${invite}` + '>\n\nThe invite will be expire in `' + `${invite_minutes}` + '` minutes, this invite can only be used `' + `${invite_people}` + '` times.\nP.S. : This message will be automatically deleted in 30 seconds.' : "There has been an error during the creation of the invite.")
+                                .then(msg => {setTimeout(() => msg.delete(), 30000)});
+                            };
+                        }
+                        else {
+                            msg.reply("Number of people to invite can't be blank !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                        };
+                    }
+                    else {
+                        msg.reply("Expire time can't be blank !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                    };
+            };
+        };
 
 
         ///WB///
@@ -629,6 +661,21 @@ client.on('message', async msg => {
         };
         };
         };
+        ///
+
+
+        ///Meme (SquadBot)///     Keep working !!!!
+        if (msg.content.startsWith(prefix.SquadBot)) {
+            const cmd = msg.content.substring(prefix.SquadBot.length).split(' ');
+            switch (cmd[0]) {
+                case 'gnip':
+                    msg.channel.send('! gnop');
+                    break;
+
+            };
+        };
+
+
     } catch (err) {
         console.log('OnMessageError', err);
     };

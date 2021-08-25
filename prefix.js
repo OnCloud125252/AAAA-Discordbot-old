@@ -4,4 +4,5 @@ module.exports = {
     S: 'S ',
     Test: '$',
     KD: 'kd',
-}
+    SquadBot: '+',
+};
