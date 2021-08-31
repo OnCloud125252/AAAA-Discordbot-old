@@ -1,18 +1,32 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
+const login_info = 'Terminal' //可修改  (Heroku/Terminal)
+const version = '2.3.2' //可修改  (版本)
+
 const Discord = require('discord.js');
 const prefix = require('./prefix.js');
 const request = require('request');
 const cheerio = require('cheerio');
 const client = new Discord.Client();
-var fs = require('fs');
+const fs = require('fs');
 const { head } = require('request');
-//client.playerID = require("./playerID.json");
-//client.memeURL = require("./memeURL.json");
-//client.memeCount = require("./memeCount.json");
+const memeURL = require("./memeURL.json");
 
 //Server ID//
-const AAAADiscordBot = 864375027935608852;
-const 玩WB的台灣人 = 849308660886929448;
+const AAAADiscordBot = '864375027935608852';
+const 玩WB的台灣人 = '849308660886929448';
+
+//Admin User//
+const adminUser = [
+    '755269122597585018', //꧁AAAA꧂#2713
+];
+
+//Trusted Role//
+const trustedRole = [
+    '880760153232773130', //AAAA--DiscordBot [Moderator]
+    '864375307330387999', //AAAA--DiscordBot [Member]
+    '881053916337438740', //AAAA--DiscordBot [demonstration]
+    '849465716154433577', //玩WB的台灣人 [成員]
+];
 
 ///Time///
 var dateObject = new Date();
@@ -30,10 +44,11 @@ function TWtime() {
     let TimeString = `${dateObject_TW}`;
     return TimeString;
 };
+
 function Wtime() {
-    let dateObject_W = new Date();
-    let TimeString = `${dateObject_W}`;
-    return TimeString;
+    let dateObject_W = new Date().toLocaleString('zh-TW', {timeZone : 'Europe/London'});
+    let WTimeString = `${dateObject_W}`;
+    return WTimeString;
 };
 
 //Delay//
@@ -44,13 +59,17 @@ function delay(ms) {
 }
 
 //隨機取數//
-function getRandom(x){
+function getRandom(x) {
     return Math.floor(Math.random()*x);
 };
 
+///Log file//
+function logfile(log) {
+    let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
+    fs.appendFileSync("./log_file.log", writelog);
+};
+
 //登入資訊
-const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '2.3.1' //可修改  (版本)
 if (login_info === 'Terminal') {
     const auth = require('./auth.json');
     client.login(auth.key);
@@ -250,36 +269,26 @@ client.on('message', async msg => {
         if (msg.member.user.bot) return;
     } catch (err) {
         return;
-    }
+    };
 
     ////文字分析////
     ///Easter Egg///
     if (msg.content === '老婆') {
         msg.reply('你沒有老婆!!')
-    }
+    };
     if (msg.content.toLowerCase() === 'trash') {
         msg.reply('你才是 ! ! !')
-    }
+    };
     if (msg.content.toLowerCase().includes('酒')) {
         msg.channel.send(`${msg.member.user}你又喝酒了?\n\n溫馨提醒 : 飲酒過量，有害健康。酒後不開 Discord，安全有保障。\n喔還有，"喝 Discord 不用酒，用酒不喝 Discord。" 嗝~(醉倒)`)
-    }
-    if (msg.content.toLowerCase().includes('等我') || msg.content.toLowerCase().includes('等妳') || msg.content.toLowerCase().includes('等你')) {
-        msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/875267221469945866/unknown.png`)
-    }
-    if (msg.content.toLowerCase().includes(';-;') || msg.content.toLowerCase().includes('哭') || msg.content.includes('QwQ')) {
-        msg.channel.send(`${msg.member.user}` + '怎麼了呀?')
-        if (getRandom(3) == 0) {
-            msg.channel.send('沒事的 乖 XD')
-            msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875271795371024415/sticker_-_2021-01-27T115639.087.png')
-        }
-    }
+    };
     if (msg.content.toLowerCase().includes('掰')) {
         msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875270242031517726/sticker--.png')
-    }
+    };
     if (msg.content.toLowerCase() === 'hi' || msg.content.toLowerCase() === 'hello') {
         msg.channel.send('Hello,' + `${msg.member.user}` + '，今天心情如何呀?')
         msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875182203322122250/sticker_26.png')
-    }
+    };
     if (msg.content === '早安') {
         await delay(300);
         if (msg.guild.id == 玩WB的台灣人) {
@@ -287,17 +296,17 @@ client.on('message', async msg => {
         }
         else {
             msg.channel.send(`早安~ ${msg.member.user}`)
-        }
+        };
         msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875181934802792459/sticker_9.png')
-    }
+    };
     if (msg.content === '午安') {
         await delay(300);
         msg.channel.send(`加油 ${msg.member.user} ，剩下半天了!`)
         if (msg.guild.id == 玩WB的台灣人) {
             msg.channel.send(`愛麗絲 你有空嗎?  我們去喝茶 ~`)
             msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875194906778411048/sticker_49.png')
-        }
-    }
+        };
+    };
     if (msg.content === '晚安') {
         await delay(300);
         msg.channel.send(`晚安~ ${msg.member.user}`)
@@ -305,13 +314,186 @@ client.on('message', async msg => {
         if (msg.guild.id == 玩WB的台灣人) {
             msg.channel.send(`愛麗絲 該吃藥了(拉走)`)
             msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195937344061470/sticker_36.png')
-        }
-    }
+        };
+    };
 
 
     ////字串分析////
     ///A///
     try {
+        if (msg.content.startsWith(prefix.Admin)) {
+            const cmd = msg.content.substring(prefix.Admin.length).split(' ');
+            if (adminUser.includes(msg.author.id)) {
+                switch (cmd[0]) {
+                    //Delete message//
+                    case 'clear':
+                        if (cmd[1] == null) {
+                            msg.delete();
+                            msg.channel.bulkDelete(2).then(() => {
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#00FF00",
+                                        description: "***Successfully deleted `1` message !***",
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 5 seconds',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 5000}));
+                            }).then(deleteone => logfile(`{${msg.author.username}} deleted {1} message in channel called {${msg.channel.name}}`));
+                        }
+                        else if (cmd[1] === 'all') {
+                            logfile(`{${msg.author.username}} failed to delete {all} messages in channel called {${msg.channel.name}} because of an error.`);
+                            msg.delete();
+                            msg.channel.send({
+                                embed: {
+                                    color: "#ff0000",
+                                    description: "***Try to use the command \`delete\` insted of \`clear\`***",
+                                    footer: {
+                                        text: 'This operation will be automatically cancelled in 5 seconds.',
+                                    },
+                                }
+                            }).then(msg => msg.delete({timeout: 5000}));
+                        }
+                        else {
+                            if(cmd[1] > 99) {
+                                logfile(`{${msg.author.username}} failed to delete {${cmd[1]}} messages in channel called {${msg.channel.name}} because it's more than {99}.`);
+                                msg.delete();
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#ff0000",
+                                        description: "***You can't delete more than \`99\` message***",
+                                        footer: {
+                                            text: 'This operation will be automatically cancelled in 5 seconds.',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 5000}));
+                            }
+                            else {
+                                var deleteAmount = parseInt(cmd[1], 10);
+                                msg.delete();
+                                msg.channel.bulkDelete(deleteAmount + 1).then(() => {
+                                    msg.channel.send({
+                                        embed: {
+                                            color: "#00FF00",
+                                            description: `***Successfully deleted \`${deleteAmount}\` messages !***`,
+                                            footer: {
+                                                text: 'This message will be automatically deleted in 5 seconds',
+                                            },
+                                        }
+                                    }).then(msg => msg.delete({timeout: 5000}));
+                                }).then(deletemany => logfile(`{${msg.author.username}} deleted {${deleteAmount}} message in channel called {${msg.channel.name}}`));
+                            };
+                        }
+                        break;
+
+                    //Clone channel//
+                    case 'clone':
+                        msg.delete();
+                        msg.channel.clone(undefined, true, false, 'Needed a clone')
+                            .then(clonechannel => logfile(`{${msg.author.username}} cloned {${msg.channel.name}} to make a channel called {${clonechannel.name}}`));
+                        break;
+
+                    //Delete channel//
+                    case 'delete':
+                        logfile(`{${msg.author.username}} request to delete a channel called {${msg.channel.name}}`);
+                        msg.delete();
+                        msg.channel.send({
+                            embed: {
+                                color: "#ff0000",
+                                description: '***Are you sure that you want to delete this channel ?***',
+                                footer: {
+                                    text: 'This operation will be automatically cancelled in 10 seconds.',
+                                },
+                            }
+                        }).then(msg => msg.delete({timeout: 10000}));
+                        var filter = m => m.author.id === msg.author.id;
+                        var collector_wanttodelete = new Discord.MessageCollector(msg.channel, filter, {max: 1,time: 10000});
+                        collector_wanttodelete.on('collect', m => {
+                            collector_wanttodelete.stop();
+                            if (m.content == 'yes') {
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#ff0000",
+                                        description: '***This channel will be deleted in 5 seconds, type any word to cancel it.***',
+                                    }
+                                });
+                                var sameuser = m => m.author.id === msg.author.id;
+                                var collector_wanttodelete2 = new Discord.MessageCollector(msg.channel, sameuser, {max: 1,time: 10000});
+                                collector_wanttodelete2.on('collect', m => {
+                                    collector_wanttodelete2.stop();
+                                    if (m.content) {
+                                        logfile(`{${msg.author.username}} failed to delete a channel called {${msg.channel.name}} because of an error.`)
+                                        msg.channel.send({
+                                            embed: {
+                                                color: "#00FF00",
+                                                description: '***The operation has been cancelled !***',
+                                                footer: {
+                                                    text: 'This message will be automatically deleted in 10 seconds.',
+                                                },
+                                            }
+                                        }).then(msg => msg.delete({timeout: 10000}));
+                                    };
+                                });
+                                collector_wanttodelete2.on('end', m => {
+                                    collector_wanttodelete2.stop();
+                                    if (m.size < 1) {
+                                        logfile(`{${msg.author.username}} successfully delete a channel called {${msg.channel.name}}.`)
+                                        msg.channel.send({
+                                            embed: {
+                                                color: "#00FF00",
+                                                description: '***Deleting this channel !***',
+                                            }
+                                        }).then(msg => msg.channel.delete({timeout: 2000}));
+                                    };
+                                });
+                            }
+                            else if (m.content != 'yes') {
+                                collector_wanttodelete.stop();
+                                logfile(`{${msg.author.username}} failed to delete a channel called {${msg.channel.name}} because of an error.`)
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#00FF00",
+                                        description: '***The operation has been cancelled because of an error.***',
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 10 seconds.',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 10000}));
+                            };
+                        });
+                        collector_wanttodelete.on('end', m => {
+                            collector_wanttodelete.stop();
+                            if (m.size < 1) {
+                                logfile(`{${msg.author.username}} failed to delete a channel called {${msg.channel.name}} because of timeout.`)
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#00FF00",
+                                        description: '***The operation has been cancelled because of timeout.***',
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 10 seconds.',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 10000}));
+                            };
+                        });
+                        break;
+                };
+            }
+            else {
+                msg.delete();
+                msg.channel.send({
+                    embed: {
+                        color: "#ff0000",
+                        description: "***Sorry, you don't have permission to use this command.***",
+                        footer: {
+                            text: 'This message will be automatically deleted in 5 seconds',
+                        },
+                    }
+                }).then(msg => msg.delete({timeout: 5000}));
+            };
+        };
+
+
         if (msg.content.startsWith(prefix.A)) {
             const cmd = msg.content.substring(prefix.A.length).split(' ');
             switch (cmd[0]) {
@@ -388,7 +570,7 @@ client.on('message', async msg => {
                         await delay(3000);
                         msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
-                    }
+                    };
 
                 //科學班題目
                 case 'S110':
@@ -442,6 +624,173 @@ client.on('message', async msg => {
                     else {
                         msg.reply("Expire time can't be blank !").then(msg => {setTimeout(() => msg.delete(), 5000)});
                     };
+                    break;
+                case 'invitebot':
+                    msg.channel.send({
+                        embed: {
+                            color: "#00FF00",
+                            description: "***將 AAAA 加入你的伺服器吧 ~***",
+                            fields: [
+                                {
+                                    name: '邀請連結 :',
+                                    value: '**[Add AAAA to your server !](https://discord.com/api/oauth2/authorize?client_id=859355917988397058&permissions=8&scope=bot)**',
+                                },
+                            ],
+                        }
+                    });
+                    break;
+                
+
+                ///Meme///
+                //Get random meme
+                case 'meme':
+                    var random_meme = memeURL[getRandom(memeURL.length)];
+                    msg.channel.send({
+                        embed: {
+                            color: "#00d0ff",
+                            image: {
+                                url: `${random_meme}`,
+                            },
+                        }
+                    });
+                    break;
+
+                //Add new meme
+                case 'store':
+                    if(msg.member.roles.cache.some(role => trustedRole.includes(role.id))) {
+                        if (cmd[1] == null) {
+                            if (msg.attachments.size == 0) {
+                                msg.delete();
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#ff0000",
+                                        description: "***You can't store nothing !***",
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 10 seconds',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 10000}));
+                            }
+                            else {
+                                msg.attachments.forEach(attachment => {
+                                    const ImageLink = attachment.proxyURL;
+                                    if (!memeURL.includes(ImageLink)) {
+                                        memeURL.push(ImageLink);
+                                        let store_meme = JSON.stringify(memeURL, null, 4);
+                                        fs.writeFileSync("./memeURL.json", store_meme);
+                                        msg.delete();
+                                        msg.channel.send({
+                                            embed: {
+                                                color: "#00FF00",
+                                                description: `***You successfully store a new meme !***`,
+                                                fields: [
+                                                    {
+                                                        name: '\u200b',
+                                                        value: '**Preview :**',
+                                                    },
+                                                ],
+                                                image: {
+                                                    url: `${ImageLink}`,
+                                                },
+                                                footer: {
+                                                    text: 'This message will be automatically deleted in 10 seconds',
+                                                },
+                                            }
+                                        }).then(msg => msg.delete({timeout: 10000}));
+                                    }
+                                    else {
+                                        msg.delete();
+                                        msg.channel.send({
+                                            embed: {
+                                                color: "ff0000",
+                                                description: '***Uh, this meme seems to be already exit.***',
+                                                footer: {
+                                                    text: 'This message will be automatically deleted in 10 seconds',
+                                                },
+                                            }
+                                        }).then(msg => msg.delete({timeout: 10000}));
+                                    };
+                                });
+                            }
+                        }
+                        else if (cmd[1].substring(0,7) === "http://" || cmd[1].substring(0,8) === "https://") {
+                            if (!memeURL.includes(cmd[1])) {
+                                memeURL.push(cmd[1]);
+                                let store_meme = JSON.stringify(memeURL, null, 4);
+                                fs.writeFileSync("./memeURL.json", store_meme);
+                                msg.delete();
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#00FF00",
+                                        description: `***You successfully store a new meme !***`,
+                                        fields: [
+                                            {
+                                                name: '\u200b',
+                                                value: '**Preview :**',
+                                            },
+                                        ],
+                                        image: {
+                                            url: `${cmd[1]}`,
+                                        },
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 10 seconds',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 10000}));
+                            }
+                            else {
+                                msg.delete();
+                                msg.channel.send({
+                                    embed: {
+                                        color: "ff0000",
+                                        description: '***Uh, this meme seems to be already exit.***',
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 10 seconds',
+                                        },
+                                    }
+                                }).then(msg => msg.delete({timeout: 10000}));
+                            };
+                        }
+                        else {
+                            msg.delete();
+                            msg.channel.send({
+                                embed: {
+                                    color: "ff0000",
+                                    description: "***Sorry, you can only store an URL of an picture or directly send an attachment.***\n\n**Example usage (URL) :**\n+store <http://meme1.png>\n+store <https://meme2.jpg>",
+                                    footer: {
+                                        text: 'This message will be automatically deleted in 20 seconds',
+                                    },
+                                }
+                            }).then(msg => msg.delete({timeout: 20000}));
+                        };
+                    }
+                    else {
+                        msg.delete();
+                        msg.channel.send({
+                            embed: {
+                                color: "ff0000",
+                                description: "***Sorry, you don't have permission to add an new meme.***",
+                                footer: {
+                                    text: 'This message will be automatically deleted in 10 seconds',
+                                },
+                            }
+                        }).then(msg => msg.delete({timeout: 10000}));
+                    };
+                    break;
+                
+                //Joke
+                case 'joke':
+                    request(`https://official-joke-api.appspot.com/jokes/random`,
+                    (error, response, body) => {
+                        if (!error && response.statusCode == 200) {
+                            var data = JSON.parse(body);
+                            msg.channel.send(`**${data.setup}**`);
+                            setTimeout(function(){ 
+                                msg.channel.send(`***${data.punchline}***`);
+                            }, 5000);
+                        };
+                    });
+                    break;
             };
         };
 
@@ -459,79 +808,90 @@ client.on('message', async msg => {
                 ///Stats///
                 //Add new
                 case 'new':
-                    var URL = msg.content.toString();
-                    var player_ID = URL.slice(-(URL.length-45));
+                    var URL = cmd[1].toString();
+                    var player_ID = URL.substring(38,62);
                     msg.delete({ timeout: 0 });
-                    client.playerID = require("./playerID.json");
-                    client.playerID[msg.author.id] = {
-                        playerID: player_ID,
-                    };
-                    let stats_URL = client.playerID[msg.author.id].playerID;
-                    let author = msg.author.username;
-                    fs.writeFile("./playerID.json", JSON.stringify(client.playerID, null, 4), err => {
-                        if (err) {
-                            throw err;
-                        }
-                        else {
-                            msg.channel.send ({
-                                embed: {
-                                    color: "#00FF00",
-                                    description: `Congrats ${author} !\n\nNow, please check if this is the right stats`,
-                                }
-                            });
-                            msg.channel.send (`https://stats.warbrokers.io/players/i/${stats_URL}`);
+                    if (cmd[1].substring(0,8) === "https://") {
+                        client.playerID = require("./playerID.json");
+                        client.playerID[msg.author.id] = {
+                            playerID: player_ID,
                         };
-                    });
+                        let stats_URL = client.playerID[msg.author.id].playerID;
+                        let author = msg.author.username;
+                        fs.writeFile("./playerID.json", JSON.stringify(client.playerID, null, 4), err => {
+                            if (err) {
+                                throw err;
+                            }
+                            else {
+                                msg.channel.send ({
+                                    embed: {
+                                        color: "#00FF00",
+                                        description: `Congrats ${author} !\n\nThis is your ID : \`${player_ID}\`\nNow, please check if this is the right stats`,
+                                    }
+                                });
+                                msg.channel.send (`https://stats.warbrokers.io/players/i/${stats_URL}`);
+                            };
+                        });
+                    }
+                    else {
+                        msg.channel.send({
+                            embed: {
+                                color: "#ff0000",
+                                description: "***Sorry, you can only store an URL of your War Brokers stats.***\n\n**Example usage:**\nWBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>",
+                            }
+                        });
+                    };
                     break;
 
                 //Show KD
                 case 'KD':
                     msg.channel.send({
                         embed: {
-                            color: "ff0000",
+                            color: "#ff0000",
                             description: '***This might take a few seconds . . .***',
                         }
-                    }).then(msg => msg.delete({timeout:"3000"}));
-                    client.playerID = require("./playerID.json");
-                    if (!client.playerID[msg.author.id]) {return};
-                    var user_ID = client.playerID[msg.author.id].playerID;
-                    request(`https://stats.warbrokers.io/players/i/${user_ID}`,
-                        (error, response, html) => {
-                            if (!error && response.statusCode == 200) {
-                                const $ = cheerio.load(html);
-                                const name_long = $("head > title").text().toString();
-                                const name = name_long.replace(' - War Brokers','');
-                                const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                                const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                                let currentKD = (kills / deaths);
-                                let rounded_currentKD = Math.round(currentKD * 10) / 10;
-                                let nextKD = (rounded_currentKD + 0.05);
-                                let neededKills = (nextKD * deaths - kills);
-                                let rounded_neededKills = Math.round(neededKills * 1) / 1;
-                                let KDdrop = (rounded_currentKD - 0.06);
-                                let neededDeaths = (kills / KDdrop - deaths);
-                                let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
-                                var emb_KD = new Discord.MessageEmbed()
-                                    .setColor('#fccbcb')
-                                    .setTitle(`Player name : ${name}`)
-                                    .addFields(
-                                        {
-                                            name: ('Your KD is : `' + rounded_currentKD + '`'),
-                                            value: ('You need `' + `${rounded_neededKills}` + '` kills to increase KD\nYou can handle `' + `${rounded_neededDeaths}` + '` deaths before your KD drops'),
-                                            inline: true
-                                        },
-                                        {
-                                            name: ('Overview :'),
-                                            value: ('Kills = `' + `${kills}` + '`\nDeaths = `' + `${deaths}` + '`'),
-                                        },
-                                        {
-                                            name: ("Here's your full stats :"),
-                                            value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
-                                        },
-                                    );
-                                msg.channel.send(`${msg.author.toString()}, here is your KD`);
-                                msg.channel.send(emb_KD);
-                            };
+                    }).then(resultMessage => {
+                        client.playerID = require("./playerID.json");
+                        if (!client.playerID[msg.author.id]) {return};
+                        var user_ID = client.playerID[msg.author.id].playerID;
+                        request(`https://stats.warbrokers.io/players/i/${user_ID}`,
+                            (error, response, html) => {
+                                if (!error && response.statusCode == 200) {
+                                    const $ = cheerio.load(html);
+                                    const name_long = $("head > title").text().toString();
+                                    const name = name_long.replace(' - War Brokers','');
+                                    const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                                    const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                                    let currentKD = (kills / deaths);
+                                    let rounded_currentKD = Math.round(currentKD * 10) / 10;
+                                    let nextKD = (rounded_currentKD + 0.05);
+                                    let neededKills = (nextKD * deaths - kills);
+                                    let rounded_neededKills = Math.round(neededKills * 1) / 1;
+                                    let KDdrop = (rounded_currentKD - 0.06);
+                                    let neededDeaths = (kills / KDdrop - deaths);
+                                    let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
+                                    var emb_KD = new Discord.MessageEmbed()
+                                        .setColor('#fccbcb')
+                                        .setTitle(`Player name : ${name}`)
+                                        .addFields(
+                                            {
+                                                name: ('Your KD is : `' + rounded_currentKD + '`'),
+                                                value: (`You need \`${rounded_neededKills}\` kills to increase KD\nYou can handle \`${rounded_neededDeaths}\` deaths before your KD drops`),
+                                                inline: true
+                                            },
+                                            {
+                                                name: ('Overview :'),
+                                                value: (`Kills = \`${kills}\`\nDeaths = \`${deaths}\``),
+                                            },
+                                            {
+                                                name: ("Here's your full stats :"),
+                                                value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
+                                            },
+                                        );
+                                    resultMessage.edit(`${msg.author.toString()}, here is your KD`);
+                                    resultMessage.channel.send(emb_KD);
+                                };
+                        });
                     });
                     break;
 
@@ -557,61 +917,62 @@ client.on('message', async msg => {
                     color: "ff0000",
                     description: '***This might take a few seconds . . .***',
                 }
-            }).then(msg => msg.delete({timeout:"3000"}));
-            client.playerID = require("./playerID.json");
-            if (!client.playerID[msg.author.id]) {return};
-            var user_ID = client.playerID[msg.author.id].playerID;
-            request(`https://stats.warbrokers.io/players/i/${user_ID}`,
-                (error, response, html) => {
-                    if (!error && response.statusCode == 200) {
-                        const $ = cheerio.load(html);
-                        const name_long = $("head > title").text().toString();
-                        const name = name_long.replace(' - War Brokers','');
-                        const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                        const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                        let currentKD = (kills / deaths);
-                        let rounded_currentKD = Math.round(currentKD * 10) / 10;
-                        let nextKD = (rounded_currentKD + 0.05);
-                        let neededKills = (nextKD * deaths - kills);
-                        let rounded_neededKills = Math.round(neededKills * 1) / 1;
-                        let KDdrop = (rounded_currentKD - 0.06);
-                        let neededDeaths = (kills / KDdrop - deaths);
-                        let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
-                        var emb_KD = new Discord.MessageEmbed()
-                            .setColor('#fccbcb')
-                            .setTitle(`玩家名稱 : ${name}`)
-                            .addFields(
-                                {
-                                    name: ('您的 KD 值 : `' + rounded_currentKD + '`'),
-                                    value: ('您需要 `' + `${rounded_neededKills}` + '` 次擊殺來增加 KD 值\n您可以在 KD 值下降之前死亡 `' + `${rounded_neededDeaths}` + '` 次'),
-                                    inline: true
-                                },
-                                {
-                                    name: ('目前狀況 :'),
-                                    value: ('擊殺次數 = `' + `${kills}` + '`\n死亡次數 = `' + `${deaths}` + '`'),
-                                },
-                                {
-                                    name: ("這是您的完整統計數據 :"),
-                                    value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
-                                },
-                            );
-                        msg.channel.send(`${msg.author.toString()}, 這是您的 KD 數據`);
-                        msg.channel.send(emb_KD);
-                    };
+            }).then(resultMessage => {
+                client.playerID = require("./playerID.json");
+                if (!client.playerID[msg.author.id]) {return};
+                var user_ID = client.playerID[msg.author.id].playerID;
+                request(`https://stats.warbrokers.io/players/i/${user_ID}`,
+                    (error, response, html) => {
+                        if (!error && response.statusCode == 200) {
+                            const $ = cheerio.load(html);
+                            const name_long = $("head > title").text().toString();
+                            const name = name_long.replace(' - War Brokers','');
+                            const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                            const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                            let currentKD = (kills / deaths);
+                            let rounded_currentKD = Math.round(currentKD * 10) / 10;
+                            let nextKD = (rounded_currentKD + 0.05);
+                            let neededKills = (nextKD * deaths - kills);
+                            let rounded_neededKills = Math.round(neededKills * 1) / 1;
+                            let KDdrop = (rounded_currentKD - 0.06);
+                            let neededDeaths = (kills / KDdrop - deaths);
+                            let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
+                            var emb_KD = new Discord.MessageEmbed()
+                                .setColor('#fccbcb')
+                                .setTitle(`玩家名稱 : ${name}`)
+                                .addFields(
+                                    {
+                                        name: ('您的 KD 值 : `' + rounded_currentKD + '`'),
+                                        value: (`您需要 \`${rounded_neededKills}\` 次擊殺來增加 KD 值\n您可以在 KD 值下降之前死亡 \`${rounded_neededDeaths}\` 次`),
+                                        inline: true
+                                    },
+                                    {
+                                        name: ('目前狀況 :'),
+                                        value: (`擊殺次數 = \`${kills}\`\n死亡次數 = \`${deaths}\``),
+                                    },
+                                    {
+                                        name: ("這是您的完整統計數據 :"),
+                                        value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
+                                    },
+                                );
+                            resultMessage.edit(`${msg.author.toString()}, 這是您的 KD 數據`);
+                            resultMessage.channel.send(emb_KD);
+                        };
+                });
             });
         };
 
 
         ///S///
         if (msg.content.startsWith(prefix.S)){
-            var pre_suggestion = msg.content.toString();
+            var pre_suggestion = msg.content
             var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2));
             msg.delete({ timeout: 0 });
             msg.channel.send('```----------- Suggestion -----------```');
             msg.channel.send('> ' + suggestion + '\n' + '    Submitted by ' + msg.author.toString()).then((msg) => {
                 msg.react("👍");
                 msg.react("👎");
-            })
+            });
         };
 
         
@@ -632,10 +993,34 @@ client.on('message', async msg => {
                 if (getRandom(5) == 3) {
                     msg.channel.send('我要先去洗個澡\n     `C.H.N [2021.08.10 16:44]`')
                 }
-            }
-            //msg.channel.send (CHNcount());
+            };
         };
 
+
+        ///Meme (SquadBot)///     Done !!!!
+        if (msg.content.startsWith(prefix.SquadBot)) {
+            const arg = msg.content.substring(prefix.SquadBot.length).split(' ');
+            switch (arg[0]) {
+                //Ping
+                case 'gnip':
+                    msg.channel.send('! gnop');
+                    break;
+                
+                //Joke
+                case 'joke':
+                    request(`https://official-joke-api.appspot.com/jokes/random`,
+                    (error, response, body) => {
+                        if (!error && response.statusCode == 200) {
+                            var data = JSON.parse(body);
+                            msg.channel.send(`**${data.setup}**`);
+                            setTimeout(function(){ 
+                                msg.channel.send(`***${data.punchline}***`);
+                            }, 5000);
+                        };
+                    });
+                    break;
+            };
+        };
 
         ///Test///
         if (login_info === 'Terminal') {
@@ -657,25 +1042,12 @@ client.on('message', async msg => {
                 resultMessage.channel.send(emb_ping);
             });
             break;
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         };
         };
         };
         ///
-
-
-        ///Meme (SquadBot)///     Keep working !!!!
-        if (msg.content.startsWith(prefix.SquadBot)) {
-            const cmd = msg.content.substring(prefix.SquadBot.length).split(' ');
-            switch (cmd[0]) {
-                case 'gnip':
-                    msg.channel.send('! gnop');
-                    break;
-
-            };
-        };
-
-
     } catch (err) {
         console.log('OnMessageError', err);
     };
