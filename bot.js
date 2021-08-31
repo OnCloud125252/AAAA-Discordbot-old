@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
-const login_info = 'Terminal' //可修改  (Heroku/Terminal)
-const version = '2.3.2' //可修改  (版本)
+const login_info = 'Heroku' //可修改  (Heroku/Terminal)
+const version = '3.4.2' //可修改  (版本)
 
 const Discord = require('discord.js');
 const prefix = require('./prefix.js');
