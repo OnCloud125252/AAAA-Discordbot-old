@@ -5,7 +5,7 @@
 /////////////////////////////////////////////
 
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
-const login_info = 'Terminal' //可修改  (Heroku/Terminal)
+const login_info = 'Heroku' //可修改  (Heroku/Terminal)
 const version = '3.4.2 [b1]' //可修改  (版本)
 
 const Discord = require('discord.js');
@@ -73,7 +73,7 @@ if (login_info === 'Terminal') {
     client.login(auth.key);
 }
 else if (login_info === 'Heroku') {
-    client.login(process.env.DJS_TOKEN);
+    client.login(process.env.DJS_TEST_TOKEN);
 };
 client.on('ready', () => {
     console.log("\n");
