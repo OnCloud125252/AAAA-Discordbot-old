@@ -499,6 +499,9 @@ client.on('message', async msg => {
             switch (cmd[0]) {
                 //Command
                 //Test
+                case 'log':
+                    logfile('Test log');
+                    break;
                 case 'ping':
                     msg.channel.send('Caculating ping . . .').then(resultMessage => {
                         const ping = resultMessage.createdTimestamp - msg.createdTimestamp
