@@ -66,7 +66,7 @@ function getRandom(x) {
 ///Log file//
 function logfile(log) {
     let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFileSync("./log_file.log", writelog);
+    fs.appendFileSync('./log_file.log', writelog);
 };
 
 //登入資訊
@@ -520,14 +520,14 @@ client.on('message', async msg => {
                     msg.channel.send(time());
                     break;
                 case 'botinfo':
-                    msg.channel.send('為啥這一行死不消失 ；-；').then(resultMessage => {
+                    msg.channel.send('看到這行的人可以獲得一塊餅乾 ฅ ^• ω •^ ฅ').then(resultMessage => {
                         const ping = (resultMessage.createdTimestamp - msg.createdTimestamp)
                         const emb_botinfo = new Discord.MessageEmbed()
                             .setColor('#4169e1')
                             .setTitle(`Bot info`)
-                            .addFields({name: `**Login info**`, value: `Platform : ${login_info}`})
-                            .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
-                            .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
+                            .addFields({name: `**Login Platform :**`, value: `\`${login_info}\``})
+                            .addFields({name: `Bot latency :`, value: `\`${ping} ms\``})
+                            .addFields({name: `API Latency :`, value: `\`${client.ws.ping} ms\``})
                             .setFooter(`V ${version}`)
                             .setTimestamp();
                         resultMessage.delete();
@@ -600,11 +600,17 @@ client.on('message', async msg => {
                 case 'invite':
                     let invite_minutes = cmd[1];
                     let invite_people = cmd[2];
-                    msg.delete();
+                    //msg.delete();
                     if (invite_minutes) {
                         if (invite_people) {
                             if (invite_minutes > 60) {
-                                msg.reply("You can't make the invite expires longer than 60 minutes").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                                msg.reply("You can't make the invite expires longer than 60 minutes !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                            }
+                            else if (invite_minutes < 1) {
+                                msg.reply("You can't make the invite expires less than 1 minutes !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                            }
+                            else if (invite_people < 1) {
+                                msg.reply("Number of people to invite can't be less than 1 people !").then(msg => {setTimeout(() => msg.delete(), 5000)});
                             }
                             else {
                                 let invite = await msg.channel.createInvite(
@@ -612,17 +618,41 @@ client.on('message', async msg => {
                                     maxAge: invite_minutes * 60 , // maximum time for the invite, in seconds
                                     maxUses: invite_people // maximum times it can be used
                                     },
-                                    `Requested with command by ${msg.author.tag}`).catch(console.log);
-                                msg.reply(invite ? "Here's your invite: \n\n" + '<' + `${invite}` + '>\n\nThe invite will be expire in `' + `${invite_minutes}` + '` minutes, this invite can only be used `' + `${invite_people}` + '` times.\nP.S. : This message will be automatically deleted in 30 seconds.' : "There has been an error during the creation of the invite.")
-                                .then(msg => {setTimeout(() => msg.delete(), 30000)});
+                                    `Requested with command by ${msg.author.tag}`
+                                ).catch(console.log);
+                                msg.channel.send(invite ? {
+                                    embed: {
+                                        color: "#00FF00",
+                                        description: `***Here's your invite:***\n\n<${invite}>\n\nThe invite will be expire in \`${invite_minutes}\` minutes, this invite can only be used \`${invite_people}\` time(s).`,
+                                        footer: {
+                                            text: 'This message will be automatically deleted in 30 seconds.',
+                                        },
+                                    }
+                                } : "There has been an error during the creation of the invite.").then(msg => {setTimeout(() => msg.delete(), 30000)});
                             };
                         }
                         else {
-                            msg.reply("Number of people to invite can't be blank !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                            msg.channel.send({
+                                embed: {
+                                    color: "#ff0000",
+                                    description: "***Number of people to invite can only be integer !***\n\n**Example usage (Expire time = 10 minutes, Amount can be use = 1 time):**\n\`A invite 10 1\`",
+                                    footer: {
+                                        text: 'This message will be automatically deleted in 10 seconds.',
+                                    },
+                                }
+                            }).then(msg => msg.delete({timeout: 10000}));
                         };
                     }
                     else {
-                        msg.reply("Expire time can't be blank !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                        msg.channel.send({
+                            embed: {
+                                color: "#ff0000",
+                                description: "***Expire time can only be integer between 0 and 61 !***\n\n**Example usage (Expire time = 10 minutes, Amount can be use = 1 time):**\n\`A invite 10 1\`",
+                                footer: {
+                                    text: 'This message will be automatically deleted in 10 seconds',
+                                },
+                            }
+                        }).then(msg => msg.delete({timeout: 10000}));
                     };
                     break;
                 case 'invitebot':
@@ -756,7 +786,7 @@ client.on('message', async msg => {
                             msg.channel.send({
                                 embed: {
                                     color: "ff0000",
-                                    description: "***Sorry, you can only store an URL of an picture or directly send an attachment.***\n\n**Example usage (URL) :**\n+store <http://meme1.png>\n+store <https://meme2.jpg>",
+                                    description: "***Sorry, you can only store an URL of an picture or directly send an attachment.***\n\n**Example usage (URL) :**\nA store <http://meme1.png>\nA store <https://meme2.jpg>",
                                     footer: {
                                         text: 'This message will be automatically deleted in 20 seconds',
                                     },
@@ -800,11 +830,6 @@ client.on('message', async msg => {
             const cmd = msg.content.substring(prefix.WBStats.length).split(' ');
             switch (cmd[0]) {
                 ////Command////
-                ///Test///
-                case 'ping':
-                    msg.channel.send('🏓 Pong !');
-                    break;
-
                 ///Stats///
                 //Add new
                 case 'new':
@@ -997,6 +1022,7 @@ client.on('message', async msg => {
         };
 
 
+        /*
         ///Meme (SquadBot)///     Done !!!!
         if (msg.content.startsWith(prefix.SquadBot)) {
             const arg = msg.content.substring(prefix.SquadBot.length).split(' ');
@@ -1021,33 +1047,7 @@ client.on('message', async msg => {
                     break;
             };
         };
-
-        ///Test///
-        if (login_info === 'Terminal') {
-        if (msg.content.startsWith(prefix.Test)) {
-        const cmd = msg.content.substring(prefix.Test.length).split(' ');
-        switch (cmd[0]) {
-        //These line will only works when ${login_info} === 'Terminal'///////////////////////////////////////////////////////////////////////////////////////////
-        case 'ping':
-            msg.channel.send('Caculating ping . . .').then(resultMessage => {
-                const ping = resultMessage.createdTimestamp - msg.createdTimestamp
-                const emb_ping = new Discord.MessageEmbed()
-                    .setColor('#4169e1')
-                    .setTitle('🏓 Pong !')
-                    .setDescription('\u200B')
-                    .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
-                    .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
-                    .setTimestamp();
-                resultMessage.delete();
-                resultMessage.channel.send(emb_ping);
-            });
-            break;
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        };
-        };
-        };
-        ///
+        */
     } catch (err) {
         console.log('OnMessageError', err);
     };

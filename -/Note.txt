@@ -1,3 +1,7 @@
+Languages : JavaScript
+Github Repository : https://github.com/Anonymous-AAAA/AAAA
+
+
 ///Bot///
   https://ithelp.ithome.com.tw/users/20126642/ironman
 
@@ -7,8 +11,10 @@ Use repl.it + uptimerobot
   https://www.youtube.com/watch?v=wtrTlzQ8rDo&ab_channel=TYPICALNINJA
 
 
-///修改///
-3,27,28 行
+///版本命名///
+主版本號：軟體有重大更新的時候遞增，重大更新通常是指功能與介面都有大幅度變動的時候。
+次版本號：軟體發佈新功能，但是並不會大幅影響到整個軟體的時候遞增。
+修訂版本號：通常是在軟體有 bug，發布 bug 的修正版時遞增。
 
 
 ///簡寫///
@@ -41,11 +47,16 @@ await delay(毫秒);
 getRandom(數字)
 
 
+///記錄檔///
+log_file(文字)
+
+
 ///Server ID///
 msg.guild.id
 
 
 ///Github Description///
+V X.X.X
 1.新增
 2.修改
 3.增加
@@ -55,7 +66,7 @@ msg.guild.id
 
 
 ///Time Zones///
-var aryIannaTimeZones = [
+TimeZones = [
   'Europe/Andorra',
   'Asia/Dubai',
   'Asia/Kabul',
