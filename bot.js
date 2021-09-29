@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.4.2' //可修改  (版本)
+const version = '3.5.0' //可修改  (版本)
 
 const Discord = require('discord.js');
 const prefix = require('./prefix.js');
@@ -836,38 +836,91 @@ client.on('message', async msg => {
                 ///Stats///
                 //Add new
                 case 'new':
-                    var URL = cmd[1].toString();
-                    var player_ID = URL.substring(38,62);
-                    msg.delete({ timeout: 0 });
-                    if (cmd[1].substring(0,8) === "https://") {
-                        client.playerID = require("./playerID.json");
-                        client.playerID[msg.author.id] = {
-                            playerID: player_ID,
-                        };
-                        let stats_URL = client.playerID[msg.author.id].playerID;
-                        let author = msg.author.username;
-                        fs.writeFile("./playerID.json", JSON.stringify(client.playerID, null, 4), err => {
-                            if (err) {
-                                throw err;
+                    if (cmd[1] == 'help') {
+                        msg.channel.send({
+                          embed: {
+                            color: "#FFFF00",
+                            title: "如何連結帳號?",
+                            fields: [
+                                {
+                                    name: "\u200B",
+                                    value: "**1.**進入 [War Brokers 官方網站](https://stats.warbrokers.io/)",
+                                },
+                                {
+                                    name: "\u200B",
+                                    value: "**2.**在左上角的 Player Search 搜尋框中輸入您遊戲中的名字",
+                                },
+                                {
+                                    name: "\u200B",
+                                    value: "**3.**在搜尋結果中選擇您的名字，點擊之後會進入您的玩家頁面",
+                                },
+                                {
+                                    name: "\u200B",
+                                    value: "**4.**複製視窗上方的網址，回到 Discord 中",
+                                },
+                                {
+                                    name: "\u200B",
+                                    value: "**5.**輸入 `WBnew <頁面網址>` (用您複製的內容取代 `<頁面網址>`)\n舉例:\n`WBnew https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
+                                },
+                                {
+                                    name: "\u200B",
+                                    value: "**6.**恭喜完成帳號連結~ 您現在可以使用 `kd` 指令來查看自己的 KD\n",
+                                }
+                            ],
+                            footer: {
+                                text: "P.S. 別忘了檢查機器人回傳的網址是否正確喔~",
                             }
-                            else {
-                                msg.channel.send ({
-                                    embed: {
-                                        color: "#00FF00",
-                                        description: `Congrats ${author} !\n\nThis is your ID : \`${player_ID}\`\nNow, please check if this is the right stats`,
-                                    }
-                                });
-                                msg.channel.send (`https://stats.warbrokers.io/players/i/${stats_URL}`);
-                            };
+                          }
                         });
                     }
                     else {
-                        msg.channel.send({
-                            embed: {
-                                color: "#ff0000",
-                                description: "***Sorry, you can only store an URL of your War Brokers stats.***\n\n**Example usage:**\nWBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>",
+                        if (!cmd[1]) {
+                            msg.channel.send({
+                                embed: {
+                                    color: "#ff0000",
+                                    title: "***Sorry, you can't store nothing !\nYou can only store an URL of your War Brokers stats.***",
+                                    description: "**Example usage:**\n`WBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>`",
+                                }
+                            });
+                            return;
+                        }
+                        else {
+                            var URL = cmd[1].toString();
+                            var player_ID = URL.substring(38,62);
+                            if (cmd[1].substring(0,8) === "https://") {
+                                msg.delete({ timeout: 0 });
+                                client.playerID = require("./playerID.json");
+                                client.playerID[msg.author.id] = {
+                                    playerID: player_ID,
+                                };
+                                let stats_URL = client.playerID[msg.author.id].playerID;
+                                let author = msg.author.username;
+                                fs.writeFile("./playerID.json", JSON.stringify(client.playerID, null, 4), err => {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    else {
+                                        msg.channel.send ({
+                                            embed: {
+                                                color: "#00FF00",
+                                                title:  `Congrats ${author} !`,
+                                                description: `This is your ID : \`${player_ID}\`\nNow, please check if this is the right stats`,
+                                            }
+                                        });
+                                        msg.channel.send (`https://stats.warbrokers.io/players/i/${stats_URL}`);
+                                    };
+                                });
                             }
-                        });
+                            else {
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#ff0000",
+                                        title: "***Sorry, you can only store an URL of your War Brokers stats.***",
+                                        description: "**Example usage:**\n`WBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>`",
+                                    }
+                                });
+                            };
+                        }
                     };
                     break;
 
@@ -947,7 +1000,29 @@ client.on('message', async msg => {
                 }
             }).then(resultMessage => {
                 client.playerID = require("./playerID.json");
-                if (!client.playerID[msg.author.id]) {return};
+                if (!client.playerID[msg.author.id]) {
+                    resultMessage.edit({
+                        embed: {
+                            color: "#ff0000",
+                            title: "***您似乎尚未連結帳號 ?***",
+                            fields: [
+                                {
+                                    name: "**連結方式 :**",
+                                    value: "WBnew <頁面網址>",
+                                },
+                                {
+                                    name: "**舉例 :**",
+                                    value: "`WBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>`",
+                                },
+                                {
+                                    name: "***需要幫助 ?***",
+                                    value: "輸入 `WBnew help` 以獲得更多資訊",
+                                }
+                            ]
+                        }
+                    });
+                    return;
+                };
                 var user_ID = client.playerID[msg.author.id].playerID;
                 request(`https://stats.warbrokers.io/players/i/${user_ID}`,
                     (error, response, html) => {
@@ -989,7 +1064,6 @@ client.on('message', async msg => {
                 });
             });
         };
-
 
         ///S///
         if (msg.content.startsWith(prefix.S)){
