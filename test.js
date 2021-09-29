@@ -6,7 +6,8 @@
 
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Terminal' //可修改  (Heroku/Terminal)
-const version = '3.4.2 [b1]' //可修改  (版本)
+const version = '3 [b1]' //可修改  (版本)
+const codever = '0';
 
 const Discord = require('discord.js');
 const prefix = require('./prefix.js');
@@ -86,6 +87,8 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Login platform = ${login_info}`);
     console.log(`V ${version}`);
+    console.log("\n");
+    console.log(`Codever = ${codever}`);
 });
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
@@ -143,7 +146,7 @@ function logfile(log) {
                                 .addFields({name: `**Login Platform :**`, value: `\`${login_info}\``})
                                 .addFields({name: `Bot latency :`, value: `\`${ping} ms\``})
                                 .addFields({name: `API Latency :`, value: `\`${client.ws.ping} ms\``})
-                                .setFooter(`V ${version}`)
+                                .setFooter(`V ${version}\nCodever = ${codever}`)
                                 .setTimestamp();
                             resultMessage.delete();
                             resultMessage.channel.send(emb_botinfo);
