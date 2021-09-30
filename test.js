@@ -77,6 +77,7 @@ else if (login_info === 'Heroku') {
     client.login(process.env.DJS_TEST_TOKEN);
 };
 client.on('ready', () => {
+    console.clear();
     console.log("\n");
     console.log("::::::::::::::::::::::::::::::::::::");
     console.log("::                                ::");
@@ -84,32 +85,14 @@ client.on('ready', () => {
     console.log("::                                ::");
     console.log("::::::::::::::::::::::::::::::::::::");
     console.log("\n");
-    console.log(`Logged in as ${client.user.tag}!`);
-    console.log(`Login platform = ${login_info}`);
-    console.log(`V ${version}`);
-    console.log("\n");
+    console.log(`User name :        ${client.user.tag}!`);
+    console.log(`Login platform :   ${login_info}`);
+    console.log(`Time :             ${TWtime()}`);
+    console.log(`Version :          V ${version}`);
+    console.log();
     console.log(`Codever = ${codever}`);
 });
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
-
-
-///////////////Embed///////////////
-////時間////
-///UTC+0///
-function time() {
-    const emb_time = new Discord.MessageEmbed()
-        .setColor('#4169e1')
-        .setTitle(`目前時間 : ${Wtime()}\n:3`);
-    return emb_time;
-};
-
-///UTC+8///
-function time_TW() {
-    const emb_time_TW = new Discord.MessageEmbed()
-        .setColor('#4169e1')
-        .setTitle(`目前時間 : ${TWtime()}\n:3`);
-    return emb_time_TW;
-};
 
 
 /////Program start/////
@@ -126,9 +109,8 @@ client.on('message', async msg => {
 
 
 //These line will only works when ${login_info} === 'Terminal'///////////////////////////////////////////////////////////////////////////////////////////
-
-function logfile(log) {
-    let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
+async function logfile(log) {
+    let writelog = await `[${TWtime()}]\n   ﹂> ${log}\n`;
     fs.appendFile('./log_file.log', writelog, err => {
         if (err) {
             msg.channel.send ("Error");
@@ -138,7 +120,7 @@ function logfile(log) {
             msg.channel.send ("Success");
         };
     });
-};
+}
 
     try {
         //Prefix = $
@@ -164,6 +146,7 @@ function logfile(log) {
                     case 'log':
                         logfile('Test log');
                         break;
+                    ///
                     case 'meme':
                         var random_meme = memeURL[getRandom(memeURL.length)];
                         msg.channel.send(`${random_meme}`);
@@ -178,6 +161,8 @@ function logfile(log) {
                         });
                         */
                         break;
+                    ///
+                    
                 };
         };
     } catch (err) {console.log('OnMessageError', err)};
