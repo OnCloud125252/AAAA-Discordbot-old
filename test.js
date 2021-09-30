@@ -109,19 +109,6 @@ client.on('message', async msg => {
 
 
 //These line will only works when ${login_info} === 'Terminal'///////////////////////////////////////////////////////////////////////////////////////////
-async function logfile(log) {
-    let writelog = await `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFile('./log_file.log', writelog, err => {
-        if (err) {
-            msg.channel.send ("Error");
-            throw err;
-        }
-        else {
-            msg.channel.send ("Success");
-        };
-    });
-}
-
     try {
         //Prefix = $
         if (msg.content.startsWith(prefix.Test)) {
@@ -143,10 +130,6 @@ async function logfile(log) {
                         });
                         break;
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    case 'log':
-                        logfile('Test log');
-                        break;
-                    ///
                     case 'meme':
                         var random_meme = memeURL[getRandom(memeURL.length)];
                         msg.channel.send(`${random_meme}`);
@@ -162,6 +145,9 @@ async function logfile(log) {
                         */
                         break;
                     ///
+                    case 'test':
+                        msg.channel.send();
+                        break;
                     
                 };
         };
