@@ -66,15 +66,7 @@ function getRandom(x) {
 ///Log file//
 async function logfile(log) {
     let writelog = await `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFile('./log_file.log', writelog, err => {
-        if (err) {
-            msg.channel.send ("Error");
-            throw err;
-        }
-        else {
-            msg.channel.send ("Success");
-        };
-    });
+    fs.appendFile('./log_file.log', writelog, err => { if (err) { throw err }});
 }
 
 //登入資訊
