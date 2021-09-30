@@ -66,7 +66,7 @@ function getRandom(x) {
 ///Log file//
 function logfile(log) {
     let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFileSync('./log_file.log', writelog);
+    fs.appendFile('./log_file.log', writelog);
 };
 
 //登入資訊
