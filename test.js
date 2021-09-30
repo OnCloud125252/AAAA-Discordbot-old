@@ -129,7 +129,15 @@ client.on('message', async msg => {
 
 function logfile(log) {
     let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFileSync('./log_file.log', writelog);
+    fs.appendFile('./log_file.log', writelog, err => {
+        if (err) {
+            msg.channel.send ("Error");
+            throw err;
+        }
+        else {
+            msg.channel.send ("Success");
+        };
+    });
 };
 
     try {
