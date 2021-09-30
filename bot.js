@@ -64,14 +64,22 @@ function getRandom(x) {
 };
 
 ///Log file//
-function logfile(log) {
-    let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFile('./log_file.log', writelog);
-};
+async function logfile(log) {
+    let writelog = await `[${TWtime()}]\n   ﹂> ${log}\n`;
+    fs.appendFile('./log_file.log', writelog, err => {
+        if (err) {
+            msg.channel.send ("Error");
+            throw err;
+        }
+        else {
+            msg.channel.send ("Success");
+        };
+    });
+}
 
 //登入資訊
 if (login_info === 'Terminal') {
-    const auth = require('./auth.json');
+    const auth = require('./auth.json'); 
     client.login(auth.key);
 }
 else if (login_info === 'Heroku') {
@@ -319,8 +327,8 @@ client.on('message', async msg => {
 
 
     ////字串分析////
-    ///A///
     try {
+        ///Admin///
         if (msg.content.startsWith(prefix.Admin)) {
             const cmd = msg.content.substring(prefix.Admin.length).split(' ');
             if (adminUser.includes(msg.author.id)) {
@@ -493,7 +501,7 @@ client.on('message', async msg => {
             };
         };
 
-
+        ///A///
         if (msg.content.startsWith(prefix.A)) {
             const cmd = msg.content.substring(prefix.A.length).split(' ');
             switch (cmd[0]) {

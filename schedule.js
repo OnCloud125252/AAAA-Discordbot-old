@@ -26,3 +26,18 @@ request(`https://stats.warbrokers.io/players/i/${user_ID}`,
         let neededDeaths = (kills / KDdrop - deaths);
         let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
         var emb_KD = new Discord.MessageEmbed()
+
+
+        
+function logfile(log) {
+  let writelog = `[${TWtime()}]\n   ﹂> ${log}\n`;
+  fs.appendFile('./log_file.log', writelog, err => {
+      if (err) {
+          msg.channel.send ("Error");
+          throw err;
+      }
+      else {
+          msg.channel.send ("Success");
+      };
+  });
+};
