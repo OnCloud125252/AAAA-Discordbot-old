@@ -63,12 +63,6 @@ function getRandom(x) {
     return Math.floor(Math.random()*x);
 };
 
-///Log file//
-async function logfile(log) {
-    let writelog = await `[${TWtime()}]\n   ﹂> ${log}\n`;
-    fs.appendFile('./log_file.log', writelog, err => { if (err) { throw err }});
-}
-
 //登入資訊
 if (login_info === 'Terminal') {
     const auth = require('./auth.json'); 
@@ -339,10 +333,9 @@ client.on('message', async msg => {
                                         },
                                     }
                                 }).then(msg => msg.delete({timeout: 5000}));
-                            }).then(deleteone => logfile(`{${msg.author.username}} deleted {1} message in channel called {${msg.channel.name}}`));
+                            });
                         }
                         else if (cmd[1] === 'all') {
-                            logfile(`{${msg.author.username}} failed to delete {all} messages in channel called {${msg.channel.name}} because of an error.`);
                             msg.delete();
                             msg.channel.send({
                                 embed: {
@@ -356,7 +349,6 @@ client.on('message', async msg => {
                         }
                         else {
                             if(cmd[1] > 99) {
-                                logfile(`{${msg.author.username}} failed to delete {${cmd[1]}} messages in channel called {${msg.channel.name}} because it's more than {99}.`);
                                 msg.delete();
                                 msg.channel.send({
                                     embed: {
@@ -381,7 +373,7 @@ client.on('message', async msg => {
                                             },
                                         }
                                     }).then(msg => msg.delete({timeout: 5000}));
-                                }).then(deletemany => logfile(`{${msg.author.username}} deleted {${deleteAmount}} message in channel called {${msg.channel.name}}`));
+                                });
                             };
                         }
                         break;
@@ -389,13 +381,20 @@ client.on('message', async msg => {
                     //Clone channel//
                     case 'clone':
                         msg.delete();
-                        msg.channel.clone(undefined, true, false, 'Needed a clone')
-                            .then(clonechannel => logfile(`{${msg.author.username}} cloned {${msg.channel.name}} to make a channel called {${clonechannel.name}}`));
+                        msg.channel.clone(undefined, true, false, 'Needed a clone');
+                        msg.channel.send({
+                            embed: {
+                                color: "#00FF00",
+                                description: `***${msg.author} have cloned this channel !***`,
+                                footer: {
+                                    text: 'This message will be automatically deleted in 5 seconds.',
+                                },
+                            }
+                        }).then(msg => msg.delete({timeout: 5000}));
                         break;
 
                     //Delete channel//
                     case 'delete':
-                        logfile(`{${msg.author.username}} request to delete a channel called {${msg.channel.name}}`);
                         msg.delete();
                         msg.channel.send({
                             embed: {
@@ -422,7 +421,6 @@ client.on('message', async msg => {
                                 collector_wanttodelete2.on('collect', m => {
                                     collector_wanttodelete2.stop();
                                     if (m.content) {
-                                        logfile(`{${msg.author.username}} failed to delete a channel called {${msg.channel.name}} because of an error.`)
                                         msg.channel.send({
                                             embed: {
                                                 color: "#00FF00",
@@ -437,7 +435,6 @@ client.on('message', async msg => {
                                 collector_wanttodelete2.on('end', m => {
                                     collector_wanttodelete2.stop();
                                     if (m.size < 1) {
-                                        logfile(`{${msg.author.username}} successfully delete a channel called {${msg.channel.name}}.`)
                                         msg.channel.send({
                                             embed: {
                                                 color: "#00FF00",
@@ -449,7 +446,6 @@ client.on('message', async msg => {
                             }
                             else if (m.content != 'yes') {
                                 collector_wanttodelete.stop();
-                                logfile(`{${msg.author.username}} failed to delete a channel called {${msg.channel.name}} because of an error.`)
                                 msg.channel.send({
                                     embed: {
                                         color: "#00FF00",
@@ -464,7 +460,6 @@ client.on('message', async msg => {
                         collector_wanttodelete.on('end', m => {
                             collector_wanttodelete.stop();
                             if (m.size < 1) {
-                                logfile(`{${msg.author.username}} failed to delete a channel called {${msg.channel.name}} because of timeout.`)
                                 msg.channel.send({
                                     embed: {
                                         color: "#00FF00",
@@ -499,9 +494,6 @@ client.on('message', async msg => {
             switch (cmd[0]) {
                 //Command
                 //Test
-                case 'log':
-                    logfile('Test log');
-                    break;
                 case 'ping':
                     msg.channel.send('Caculating ping . . .').then(resultMessage => {
                         const ping = resultMessage.createdTimestamp - msg.createdTimestamp
