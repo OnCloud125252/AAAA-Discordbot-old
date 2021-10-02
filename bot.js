@@ -315,8 +315,8 @@ client.on('message', async msg => {
     ////字串分析////
     try {
         ///Admin///
-        if (msg.content.startsWith(prefix.Admin)) {
-            const cmd = msg.content.substring(prefix.Admin.length).split(' ');
+        if (msg.content.startsWith(process.env.DJS_Admin_Prefix)) {
+            const cmd = msg.content.substring(process.env.DJS_Admin_Prefix .length).split(' ');
             if (adminUser.includes(msg.author.id)) {
                 switch (cmd[0]) {
                     //Delete message//
