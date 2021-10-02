@@ -316,7 +316,7 @@ client.on('message', async msg => {
     try {
         ///Admin///
         if (msg.content.startsWith(process.env.DJS_Admin_Prefix)) {
-            const cmd = msg.content.substring(process.env.DJS_Admin_Prefix .length).split(' ');
+            const cmd = msg.content.substring(process.env.DJS_Admin_Prefix.length).split(' ');
             if (adminUser.includes(msg.author.id)) {
                 switch (cmd[0]) {
                     //Delete message//
