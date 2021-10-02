@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.5.1' //可修改  (版本)
+const version = '3.5.2' //可修改  (版本)
 
 const Discord = require('discord.js');
 const prefix = require('./prefix.js');
@@ -501,8 +501,8 @@ client.on('message', async msg => {
                             .setColor('#4169e1')
                             .setTitle('🏓 Pong !')
                             .setDescription('\u200B')
-                            .addFields({name: `Bot latency :`, value: `**${ping}ms**`})
-                            .addFields({name: `API Latency :`, value: `**${client.ws.ping}ms**`})
+                            .addFields({name: `Bot latency :`, value: `\`**${ping}ms**\``})
+                            .addFields({name: `API Latency :`, value: `\`**${client.ws.ping}ms\`**`})
                             .setTimestamp();
                         resultMessage.delete();
                         resultMessage.channel.send(emb_ping);
