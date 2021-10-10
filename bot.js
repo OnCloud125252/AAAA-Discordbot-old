@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.5.2' //可修改  (版本)
+const version = '3.5.3' //可修改  (版本)
 
 const Discord = require('discord.js');
 const prefix = require('./prefix.js');
@@ -984,7 +984,7 @@ client.on('message', async msg => {
 
 
         ///KD///
-        if (msg.content.startsWith(prefix.KD)) {
+        if (msg.content.toLowerCase().startsWith(prefix.KD)) {
             msg.channel.send({
                 embed: {
                     color: "ff0000",
