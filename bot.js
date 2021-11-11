@@ -8,6 +8,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const client = new Discord.Client();
 const fs = require('fs');
+const prettyMS = require('pretty-ms');
 const { head } = require('request');
 const memeURL = require("./memeURL.json");
 
@@ -40,13 +41,13 @@ var dateObject = new Date();
 //var seconds = dateObject.getSeconds();
 
 function TWtime() {
-    let dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone : 'Asia/Taipei'});
+    let dateObject_TW = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
     let TimeString = `${dateObject_TW}`;
     return TimeString;
 };
 
 function Wtime() {
-    let dateObject_W = new Date().toLocaleString('zh-TW', {timeZone : 'Europe/London'});
+    let dateObject_W = new Date().toLocaleString('zh-TW', { timeZone: 'Europe/London' });
     let WTimeString = `${dateObject_W}`;
     return WTimeString;
 };
@@ -54,18 +55,18 @@ function Wtime() {
 //Delay//
 function delay(ms) {
     return new Promise((resolve) => {
-      setTimeout(resolve, ms);
+        setTimeout(resolve, ms);
     });
 }
 
 //隨機取數//
 function getRandom(x) {
-    return Math.floor(Math.random()*x);
+    return Math.floor(Math.random() * x);
 };
 
 //登入資訊
 if (login_info === 'Terminal') {
-    const auth = require('./auth.json'); 
+    const auth = require('./auth.json');
     client.login(auth.key);
 }
 else if (login_info === 'Heroku') {
@@ -102,89 +103,11 @@ const emb_thx = new Discord.MessageEmbed()
         { name: '\u200B', value: '**Developer**' },
         { name: '𝕷𝖊𝖌𝖊𝖓𝖉•SHARK', value: '\u200B', inline: true },
         { name: '꧁AAAA꧂', value: '\u200B', inline: true },
-        { name: '\u200B', value: '**Special Thanks to**'},
+        { name: '\u200B', value: '**Special Thanks to**' },
         { name: 'DaVince', value: '\u200B', inline: true },
     );
 
-
 ////課表////
-///暑輔///
-//Mon//
-const emb_timetablemonall = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`這是今天的課表`)
-    .setAuthor('上課小幫手')
-    .setDescription(`\u200B`)
-    .addFields({name: `早修\n08:10 ~ 08:20\n梁伶羽`, value: '**[早修](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第一節\n08:25 ~ 09:15\n梁伶羽`, value: '**[班會](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第二節\n09:25 ~ 10:15\n黃煌興`, value: '**[歷史](https://meet.google.com/lookup/a3o7ew5oxl)**'})
-    .addFields({name: `第三節\n10:25 ~ 11:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第四節\n11:25 ~ 12:10\n梁伶羽`, value: '**[國文](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第五節\n13:25 ~ 14:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第六節\n14:25 ~ 15:15\n朱中岳`, value: '**[數學](https://meet.google.com/lookup/gi22oanrh4)**'})
-    .addFields({name: `第七節\n15:25 ~ 16:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
-    .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
-//Tue//
-const emb_timetabletueall = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`這是今天的課表`)
-    .setAuthor('上課小幫手')
-    .setDescription(`\u200B`)
-    .addFields({name: `早修\n08:10 ~ 08:20\n梁伶羽`, value: '**[早修](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第一節\n08:25 ~ 09:15\n梁伶羽`, value: '**[國文](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第二節\n09:25 ~ 10:15\n古鎧榮`, value: '**[公民](https://meet.google.com/lookup/e2x5rtnx5s)**'})
-    .addFields({name: `第三節\n10:25 ~ 11:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第四節\n11:25 ~ 12:10\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
-    .addFields({name: `第五節\n13:25 ~ 14:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第六節\n14:25 ~ 15:15\n王姍珮`, value: '**[生物](https://meet.google.com/lookup/dqmzrymccn)**'})
-    .addFields({name: `第七節\n15:25 ~ 16:15\n朱中岳`, value: '**[數學](https://meet.google.com/lookup/gi22oanrh4)**'})
-    .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
-//Wed//
-const emb_timetablewedall = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`這是今天的課表`)
-    .setAuthor('上課小幫手')
-    .setDescription(`\u200B`)
-    .addFields({name: `早修\n08:10 ~ 08:20\n梁伶羽`, value: '**[早修](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第一節\n08:25 ~ 09:15\n王妤珊`, value: '**[地理](https://meet.google.com/lookup/agcgvbddej)**'})
-    .addFields({name: `第二節\n09:25 ~ 10:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
-    .addFields({name: `第三節\n10:25 ~ 11:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第四節\n11:25 ~ 12:10\n朱中岳`, value: '**[數學](https://meet.google.com/lookup/gi22oanrh4)**'})
-    .addFields({name: `第五節\n13:25 ~ 14:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第六節\n14:25 ~ 15:15\n曾麟傑`, value: '**[物理](https://meet.google.com/lookup/bywilyby2a)**'})
-    .addFields({name: `第七節\n15:25 ~ 16:15\n黃美娟`, value: '**[地科](https://meet.google.com/lookup/agkx73i2bt)**'})
-    .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
-//Thu//
-const emb_timetablethuall = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`這是今天的課表`)
-    .setAuthor('上課小幫手')
-    .setDescription(`\u200B`)
-    .addFields({name: `早修\n08:10 ~ 08:20\n梁伶羽`, value: '**[早修](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第一節\n08:25 ~ 09:15\n王志仁`, value: '**[化學](https://meet.google.com/lookup/fcgwp6ut6z)**'})
-    .addFields({name: `第二節\n09:25 ~ 10:15\n梁伶羽`, value: '**[國文](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第三節\n10:25 ~ 11:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第四節\n11:25 ~ 12:10\n黃煌興`, value: '**[歷史](https://meet.google.com/lookup/a3o7ew5oxl)**'})
-    .addFields({name: `第五節\n13:25 ~ 14:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第六節\n14:25 ~ 15:15\n古鎧榮`, value: '**[公民](https://meet.google.com/lookup/e2x5rtnx5s)**'})
-    .addFields({name: `第七節\n15:25 ~ 16:15\n張幸芳`, value: '**[英文](https://meet.google.com/lookup/abcbca6oub)**'})
-    .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
-//Fri//
-const emb_timetablefriall = new Discord.MessageEmbed()
-    .setColor('#4169e1')
-    .setTitle(`這是今天的課表`)
-    .setAuthor('上課小幫手')
-    .setDescription(`\u200B`)
-    .addFields({name: `早修\n08:10 ~ 08:20\n梁伶羽`, value: '**[早修](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第一節\n08:25 ~ 09:15\n曾麟傑`, value: '**[物理](https://meet.google.com/lookup/bywilyby2a)**'})
-    .addFields({name: `第二節\n09:25 ~ 10:15\n朱中岳`, value: '**[數學](https://meet.google.com/lookup/gi22oanrh4)**'})
-    .addFields({name: `第三節\n10:25 ~ 11:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第四節\n11:25 ~ 12:10\n王志仁`, value: '**[化學](https://meet.google.com/lookup/fcgwp6ut6z)**'})
-    .addFields({name: `第五節\n13:25 ~ 14:15\n空`, value: '**[空]()**'})
-    .addFields({name: `第六節\n14:25 ~ 15:15\n王妤珊`, value: '**[地理](https://meet.google.com/lookup/agcgvbddej)**'})
-    .addFields({name: `第七節\n15:25 ~ 16:15\n梁伶羽`, value: '**[國文](https://meet.google.com/lookup/hisvoo7u3n)**'})
-    .addFields({name: `第八節\n16:25 ~ 17:10\n空`, value: '**[空]()**'})
-
 ////科學班題目////
 //110//
 const emb_S110 = new Discord.MessageEmbed()
@@ -192,40 +115,40 @@ const emb_S110 = new Discord.MessageEmbed()
     .setTitle('110 年科學班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('題目 + 解答 (全)')
-    .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/MADO14)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/YOQ45L)**'})
+    .addFields({ name: `\u200B`, value: '**[Google Drive](https://reurl.cc/MADO14)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://reurl.cc/YOQ45L)**' })
 //109//
 const emb_S109 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('109 年科學班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('題目 + 解答 (全科)')
-    .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/DgDj16)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/7rl4aN)**'})
+    .addFields({ name: `\u200B`, value: '**[Google Drive](https://reurl.cc/DgDj16)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://reurl.cc/7rl4aN)**' })
 //108//
 const emb_S108 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('108 年科學班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('題目 + 解答 (全科)')
-    .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/qgXVDn)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/eEaGRW)**'})
+    .addFields({ name: `\u200B`, value: '**[Google Drive](https://reurl.cc/qgXVDn)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://reurl.cc/eEaGRW)**' })
 //107//
 const emb_S107 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('107 年科學班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('題目 + 解答 (全科)')
-    .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/zeX1ya)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/MAD6pL)**'})
+    .addFields({ name: `\u200B`, value: '**[Google Drive](https://reurl.cc/zeX1ya)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://reurl.cc/MAD6pL)**' })
 //106//
 const emb_S106 = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('106 年科學班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('題目 + 解答 (全科)')
-    .addFields({name: `\u200B`, value: '**[Google Drive](https://reurl.cc/KALb2j)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://reurl.cc/VEQDWn)**'})
+    .addFields({ name: `\u200B`, value: '**[Google Drive](https://reurl.cc/KALb2j)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://reurl.cc/VEQDWn)**' })
 
 ////數資班題目////
 ////109////
@@ -235,25 +158,26 @@ const emb_M109B = new Discord.MessageEmbed()
     .setTitle('109 學年數資班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('生物')
-    .addFields({name: `第一階段`, value: '**[Google Drive](https://example.com)** \n **[直接下載](https://example.com)**'})
-    .addFields({name: `第二階段`, value: '**[Google Drive](https://example.com)** \n **[直接下載](https://example.com)**'})
+    .addFields({ name: `第一階段`, value: '**[Google Drive](https://example.com)** \n **[直接下載](https://example.com)**' })
+    .addFields({ name: `第二階段`, value: '**[Google Drive](https://example.com)** \n **[直接下載](https://example.com)**' })
 //地科//
 const emb_M109G = new Discord.MessageEmbed()
     .setColor('#4169e1')
     .setTitle('109 學年數資班甄選')
     .setAuthor('題庫小幫手')
     .setDescription('地科')
-    .addFields({name: `第一階段`, value: '**[Google Drive](https://example.com)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://example.com)**'})
+    .addFields({ name: `第一階段`, value: '**[Google Drive](https://example.com)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://example.com)**' })
     .addField('\u200B', '\u200B')
-    .addFields({name: `第二階段`, value: '**[Google Drive](https://example.com)**'})
-    .addFields({name: `\u200B`, value: '**[直接下載](https://example.com)**'})
+    .addFields({ name: `第二階段`, value: '**[Google Drive](https://example.com)**' })
+    .addFields({ name: `\u200B`, value: '**[直接下載](https://example.com)**' })
 
 //client.on('message', async msg => {
 //    if (msg.content.toLowerCase().includes('spam')) {
 //        msg.reply('飲酒過量，有害（礙）健康。\n酒後不開車，安全有保障。\n飲酒過量，害人害己。\n未滿十八歲禁止飲酒。\n短時間內大量灌酒會使人立即喪命。\n||I love to spam||')
 //    }
 //})
+
 
 client.on('message', async msg => {
     ////前置判斷////
@@ -332,7 +256,7 @@ client.on('message', async msg => {
                                             text: 'This message will be automatically deleted in 5 seconds',
                                         },
                                     }
-                                }).then(msg => msg.delete({timeout: 5000}));
+                                }).then(msg => msg.delete({ timeout: 5000 }));
                             });
                         }
                         else if (cmd[1] === 'all') {
@@ -345,10 +269,10 @@ client.on('message', async msg => {
                                         text: 'This operation will be automatically cancelled in 5 seconds.',
                                     },
                                 }
-                            }).then(msg => msg.delete({timeout: 5000}));
+                            }).then(msg => msg.delete({ timeout: 5000 }));
                         }
                         else {
-                            if(cmd[1] > 99) {
+                            if (cmd[1] > 99) {
                                 msg.delete();
                                 msg.channel.send({
                                     embed: {
@@ -358,7 +282,7 @@ client.on('message', async msg => {
                                             text: 'This operation will be automatically cancelled in 5 seconds.',
                                         },
                                     }
-                                }).then(msg => msg.delete({timeout: 5000}));
+                                }).then(msg => msg.delete({ timeout: 5000 }));
                             }
                             else {
                                 var deleteAmount = parseInt(cmd[1], 10);
@@ -372,7 +296,7 @@ client.on('message', async msg => {
                                                 text: 'This message will be automatically deleted in 5 seconds',
                                             },
                                         }
-                                    }).then(msg => msg.delete({timeout: 5000}));
+                                    }).then(msg => msg.delete({ timeout: 5000 }));
                                 });
                             };
                         }
@@ -390,7 +314,7 @@ client.on('message', async msg => {
                                     text: 'This message will be automatically deleted in 5 seconds.',
                                 },
                             }
-                        }).then(msg => msg.delete({timeout: 5000}));
+                        }).then(msg => msg.delete({ timeout: 5000 }));
                         break;
 
                     //Delete channel//
@@ -404,9 +328,9 @@ client.on('message', async msg => {
                                     text: 'This operation will be automatically cancelled in 10 seconds.',
                                 },
                             }
-                        }).then(msg => msg.delete({timeout: 10000}));
+                        }).then(msg => msg.delete({ timeout: 10000 }));
                         var filter = m => m.author.id === msg.author.id;
-                        var collector_wanttodelete = new Discord.MessageCollector(msg.channel, filter, {max: 1,time: 10000});
+                        var collector_wanttodelete = new Discord.MessageCollector(msg.channel, filter, { max: 1, time: 10000 });
                         collector_wanttodelete.on('collect', m => {
                             collector_wanttodelete.stop();
                             if (m.content == 'yes') {
@@ -417,7 +341,7 @@ client.on('message', async msg => {
                                     }
                                 });
                                 var sameuser = m => m.author.id === msg.author.id;
-                                var collector_wanttodelete2 = new Discord.MessageCollector(msg.channel, sameuser, {max: 1,time: 10000});
+                                var collector_wanttodelete2 = new Discord.MessageCollector(msg.channel, sameuser, { max: 1, time: 10000 });
                                 collector_wanttodelete2.on('collect', m => {
                                     collector_wanttodelete2.stop();
                                     if (m.content) {
@@ -429,7 +353,7 @@ client.on('message', async msg => {
                                                     text: 'This message will be automatically deleted in 10 seconds.',
                                                 },
                                             }
-                                        }).then(msg => msg.delete({timeout: 10000}));
+                                        }).then(msg => msg.delete({ timeout: 10000 }));
                                     };
                                 });
                                 collector_wanttodelete2.on('end', m => {
@@ -440,7 +364,7 @@ client.on('message', async msg => {
                                                 color: "#00FF00",
                                                 description: '***Deleting this channel !***',
                                             }
-                                        }).then(msg => msg.channel.delete({timeout: 2000}));
+                                        }).then(msg => msg.channel.delete({ timeout: 2000 }));
                                     };
                                 });
                             }
@@ -454,7 +378,7 @@ client.on('message', async msg => {
                                             text: 'This message will be automatically deleted in 10 seconds.',
                                         },
                                     }
-                                }).then(msg => msg.delete({timeout: 10000}));
+                                }).then(msg => msg.delete({ timeout: 10000 }));
                             };
                         });
                         collector_wanttodelete.on('end', m => {
@@ -468,7 +392,7 @@ client.on('message', async msg => {
                                             text: 'This message will be automatically deleted in 10 seconds.',
                                         },
                                     }
-                                }).then(msg => msg.delete({timeout: 10000}));
+                                }).then(msg => msg.delete({ timeout: 10000 }));
                             };
                         });
                         break;
@@ -484,7 +408,7 @@ client.on('message', async msg => {
                             text: 'This message will be automatically deleted in 5 seconds',
                         },
                     }
-                }).then(msg => msg.delete({timeout: 5000}));
+                }).then(msg => msg.delete({ timeout: 5000 }));
             };
         };
 
@@ -501,8 +425,8 @@ client.on('message', async msg => {
                             .setColor('#4169e1')
                             .setTitle('🏓 Pong !')
                             .setDescription('\u200B')
-                            .addFields({name: `Bot latency :`, value: `\`**${ping}ms**\``})
-                            .addFields({name: `API Latency :`, value: `\`**${client.ws.ping}ms\`**`})
+                            .addFields({ name: `Bot latency :`, value: `\`${ping} ms\`` })
+                            .addFields({ name: `API Latency :`, value: `\`${client.ws.ping} ms\`` })
                             .setTimestamp();
                         resultMessage.delete();
                         resultMessage.channel.send(emb_ping);
@@ -520,10 +444,10 @@ client.on('message', async msg => {
                         const emb_botinfo = new Discord.MessageEmbed()
                             .setColor('#4169e1')
                             .setTitle(`Bot info`)
-                            .addFields({name: `**Login Platform :**`, value: `\`${login_info}\``})
-                            .addFields({name: `Bot latency :`, value: `\`${ping} ms\``})
-                            .addFields({name: `API Latency :`, value: `\`${client.ws.ping} ms\``})
-                            .setFooter(`V ${version}`)
+                            .addFields({ name: `**Login Platform :**`, value: `\`${login_info}\`` })
+                            .addFields({ name: `Bot latency :`, value: `\`${ping} ms\`` })
+                            .addFields({ name: `API Latency :`, value: `\`${client.ws.ping} ms\`` })
+                            .setFooter(`V ${version}\nUptime : ${prettyMS(client.uptime)}`)
                             .setTimestamp();
                         resultMessage.delete();
                         resultMessage.channel.send(emb_botinfo);
@@ -531,6 +455,7 @@ client.on('message', async msg => {
                     break;
 
                 //Basic
+                /*
                 case '課表':
                     var day = dateObject.getDay()  //星期 0~5
                     if (day > '0' & day < '6') {
@@ -566,6 +491,7 @@ client.on('message', async msg => {
                         msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
                         break;
                     };
+                */
 
                 //科學班題目
                 case 'S110':
@@ -591,39 +517,101 @@ client.on('message', async msg => {
                     msg.channel.send(emb_M109G);
                     break;
 
+                //Base64 encode/decode
+                case 'base64':
+                    if (cmd[1] == 'e' && cmd[2]) {
+                        msg.channel.send('`' + base64.encode(msg.content.slice(-(msg.content.length - 11))) + '`');
+                    }
+                    else if (cmd[1] == 'd' && cmd[2]) {
+                        msg.channel.send('`' + base64.decode(cmd[2]) + '`');
+                    }
+                    else {
+                        msg.channel.send({
+                            embed: {
+                                color: "#0099ff",
+                                title: "base64 encoded/decode",
+                                url: "https://github.com/emn178/hi-base64",
+                                description: "A Base64 encode/decode library by `emn178`",
+                                fields: [
+                                    {
+                                        name: "Prefix",
+                                        value: "A",
+                                    },
+                                    {
+                                        name: "base64 [`e`or`d`] [value]",
+                                        value: "`e`\nEncode [value] with base64\n(All languages supported)\n\n`d`\nDecode [value] with base64\n(Support English only)",
+                                        inline: true,
+                                    },
+                                ],
+                                timestamp: new Date(),
+                            }
+                        });
+                    };
+                    break;
+
+                //Rot rotational letter substitution
+                case 'rot':
+                    var input = msg.content.slice(-(msg.content.length - (7 + cmd[1].length)));
+                    if (cmd[2] && input) {
+                        msg.channel.send('`' + rot(input, Number(cmd[1])) + '`');
+                    }
+                    else {
+                        msg.channel.send({
+                            embed: {
+                                color: "#0099ff",
+                                title: "rot shifting",
+                                url: "https://github.com/mathiasbynens/rot",
+                                description: "A library that performs rotational letter substitution by `mathiasbynens`",
+                                fields: [
+                                    {
+                                        name: "Prefix",
+                                        value: "A",
+                                    },
+                                    {
+                                        name: "rot [value] [text]",
+                                        value: "Shift letters in [text] by [value]",
+                                        inline: true,
+                                    },
+                                ],
+                                timestamp: new Date(),
+                            }
+                        });
+                    };
+                    break;
+
                 //Post an invite link
                 case 'invite':
                     let invite_minutes = cmd[1];
                     let invite_people = cmd[2];
-                    //msg.delete();
+                    msg.delete();
                     if (invite_minutes) {
                         if (invite_people) {
                             if (invite_minutes > 60) {
-                                msg.reply("You can't make the invite expires longer than 60 minutes !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                                msg.reply("You can't make the invite expires longer than 60 minutes !").then(msg => { setTimeout(() => msg.delete(), 5000) });
                             }
                             else if (invite_minutes < 1) {
-                                msg.reply("You can't make the invite expires less than 1 minutes !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                                msg.reply("You can't make the invite expires less than 1 minutes !").then(msg => { setTimeout(() => msg.delete(), 5000) });
                             }
                             else if (invite_people < 1) {
-                                msg.reply("Number of people to invite can't be less than 1 people !").then(msg => {setTimeout(() => msg.delete(), 5000)});
+                                msg.reply("Number of people to invite can't be less than 1 person !").then(msg => { setTimeout(() => msg.delete(), 5000) });
                             }
                             else {
                                 let invite = await msg.channel.createInvite(
                                     {
-                                    maxAge: invite_minutes * 60 , // maximum time for the invite, in seconds
-                                    maxUses: invite_people // maximum times it can be used
+                                        maxAge: invite_minutes * 60, // maximum time for the invite, in seconds
+                                        maxUses: invite_people // maximum times it can be used
                                     },
                                     `Requested with command by ${msg.author.tag}`
                                 ).catch(console.log);
                                 msg.channel.send(invite ? {
                                     embed: {
                                         color: "#00FF00",
-                                        description: `***Here's your invite:***\n\n<${invite}>\n\nThe invite will be expire in \`${invite_minutes}\` minutes, this invite can only be used \`${invite_people}\` time(s).`,
+                                        description: `***Here's your invite:***\n\n<${invite}>\n\nThe invite will be expire in \`${invite_minutes}\` minute(s), this invite can only be used \`${invite_people}\` time(s).`,
                                         footer: {
                                             text: 'This message will be automatically deleted in 30 seconds.',
                                         },
                                     }
-                                } : "There has been an error during the creation of the invite.").then(msg => {setTimeout(() => msg.delete(), 30000)});
+                                } : "There has been an error during the creation of the invite.").then(msg => { setTimeout(() => msg.delete(), 30000) });
                             };
                         }
                         else {
@@ -635,7 +623,7 @@ client.on('message', async msg => {
                                         text: 'This message will be automatically deleted in 10 seconds.',
                                     },
                                 }
-                            }).then(msg => msg.delete({timeout: 10000}));
+                            }).then(msg => msg.delete({ timeout: 10000 }));
                         };
                     }
                     else {
@@ -647,7 +635,7 @@ client.on('message', async msg => {
                                     text: 'This message will be automatically deleted in 10 seconds',
                                 },
                             }
-                        }).then(msg => msg.delete({timeout: 10000}));
+                        }).then(msg => msg.delete({ timeout: 10000 }));
                     };
                     break;
                 case 'invitebot':
@@ -664,10 +652,11 @@ client.on('message', async msg => {
                         }
                     });
                     break;
-                
+
 
                 ///Meme///
                 //Get random meme
+                /*
                 case 'meme':
                     var random_meme = memeURL[getRandom(memeURL.length)];
                     msg.channel.send({
@@ -802,20 +791,24 @@ client.on('message', async msg => {
                         }).then(msg => msg.delete({timeout: 10000}));
                     };
                     break;
-                
+                */
+
+                //Site down
+                /*
                 //Joke
                 case 'joke':
                     request(`https://official-joke-api.appspot.com/jokes/random`,
-                    (error, response, body) => {
-                        if (!error && response.statusCode == 200) {
-                            var data = JSON.parse(body);
-                            msg.channel.send(`**${data.setup}**`);
-                            setTimeout(function(){ 
-                                msg.channel.send(`***${data.punchline}***`);
-                            }, 5000);
-                        };
-                    });
+                        (error, response, body) => {
+                            if (!error && response.statusCode == 200) {
+                                var data = JSON.parse(body);
+                                msg.channel.send(`**${data.setup}**`);
+                                setTimeout(function () {
+                                    msg.channel.send(`***${data.punchline}***`);
+                                }, 5000);
+                            };
+                        });
                     break;
+                */
             };
         };
 
@@ -830,39 +823,39 @@ client.on('message', async msg => {
                 case 'new':
                     if (cmd[1] == 'help') {
                         msg.channel.send({
-                          embed: {
-                            color: "#FFFF00",
-                            title: "如何連結帳號?",
-                            fields: [
-                                {
-                                    name: "\u200B",
-                                    value: "**1.**進入 [War Brokers 官方網站](https://stats.warbrokers.io/)",
-                                },
-                                {
-                                    name: "\u200B",
-                                    value: "**2.**在左上角的 Player Search 搜尋框中輸入您遊戲中的名字",
-                                },
-                                {
-                                    name: "\u200B",
-                                    value: "**3.**在搜尋結果中選擇您的名字，點擊之後會進入您的玩家頁面",
-                                },
-                                {
-                                    name: "\u200B",
-                                    value: "**4.**複製視窗上方的網址，回到 Discord 中",
-                                },
-                                {
-                                    name: "\u200B",
-                                    value: "**5.**輸入 `WBnew <頁面網址>` (用您複製的內容取代 `<頁面網址>`)\n舉例:\n`WBnew https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
-                                },
-                                {
-                                    name: "\u200B",
-                                    value: "**6.**恭喜完成帳號連結~ 您現在可以使用 `kd` 指令來查看自己的 KD\n",
+                            embed: {
+                                color: "#FFFF00",
+                                title: "如何連結帳號?",
+                                fields: [
+                                    {
+                                        name: "\u200B",
+                                        value: "**1.**進入 [War Brokers 官方網站](https://stats.warbrokers.io/)",
+                                    },
+                                    {
+                                        name: "\u200B",
+                                        value: "**2.**在左上角的 Player Search 搜尋框中輸入您遊戲中的名字",
+                                    },
+                                    {
+                                        name: "\u200B",
+                                        value: "**3.**在搜尋結果中選擇您的名字，點擊之後會進入您的玩家頁面",
+                                    },
+                                    {
+                                        name: "\u200B",
+                                        value: "**4.**複製視窗上方的網址，回到 Discord 中",
+                                    },
+                                    {
+                                        name: "\u200B",
+                                        value: "**5.**輸入 `WBnew <頁面網址>` (用您複製的內容取代 `<頁面網址>`)\n舉例:\n`WBnew https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
+                                    },
+                                    {
+                                        name: "\u200B",
+                                        value: "**6.**恭喜完成帳號連結~ 您現在可以使用 `kd` 指令來查看自己的 KD\n",
+                                    }
+                                ],
+                                footer: {
+                                    text: "P.S. 別忘了檢查機器人回傳的網址是否正確喔~",
                                 }
-                            ],
-                            footer: {
-                                text: "P.S. 別忘了檢查機器人回傳的網址是否正確喔~",
                             }
-                          }
                         });
                     }
                     else {
@@ -878,8 +871,8 @@ client.on('message', async msg => {
                         }
                         else {
                             var URL = cmd[1].toString();
-                            var player_ID = URL.substring(38,62);
-                            if (cmd[1].substring(0,8) === "https://") {
+                            var player_ID = URL.substring(38, 62);
+                            if (cmd[1].substring(0, 8) === "https://") {
                                 msg.delete({ timeout: 0 });
                                 client.playerID = require("./playerID.json");
                                 client.playerID[msg.author.id] = {
@@ -892,14 +885,14 @@ client.on('message', async msg => {
                                         throw err;
                                     }
                                     else {
-                                        msg.channel.send ({
+                                        msg.channel.send({
                                             embed: {
                                                 color: "#00FF00",
-                                                title:  `Congrats ${author} !`,
+                                                title: `Congrats ${author} !`,
                                                 description: `This is your ID : \`${player_ID}\`\nNow, please check if this is the right stats`,
                                             }
                                         });
-                                        msg.channel.send (`https://stats.warbrokers.io/players/i/${stats_URL}`);
+                                        msg.channel.send(`https://stats.warbrokers.io/players/i/${stats_URL}`);
                                     };
                                 });
                             }
@@ -925,14 +918,14 @@ client.on('message', async msg => {
                         }
                     }).then(resultMessage => {
                         client.playerID = require("./playerID.json");
-                        if (!client.playerID[msg.author.id]) {return};
+                        if (!client.playerID[msg.author.id]) { return };
                         var user_ID = client.playerID[msg.author.id].playerID;
                         request(`https://stats.warbrokers.io/players/i/${user_ID}`,
                             (error, response, html) => {
                                 if (!error && response.statusCode == 200) {
                                     const $ = cheerio.load(html);
                                     const name_long = $("head > title").text().toString();
-                                    const name = name_long.replace(' - War Brokers','');
+                                    const name = name_long.replace(' - War Brokers', '');
                                     const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                                     const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                                     let currentKD = (kills / deaths);
@@ -964,13 +957,13 @@ client.on('message', async msg => {
                                     resultMessage.edit(`${msg.author.toString()}, here is your KD`);
                                     resultMessage.channel.send(emb_KD);
                                 };
-                        });
+                            });
                     });
                     break;
 
                 //Show stats
                 case 'stats':
-                    if (!client.playerID[msg.author.id]) {return};
+                    if (!client.playerID[msg.author.id]) { return };
                     var user_ID = client.playerID[msg.author.id].playerID;
                     msg.channel.send({
                         embed: {
@@ -1021,7 +1014,7 @@ client.on('message', async msg => {
                         if (!error && response.statusCode == 200) {
                             const $ = cheerio.load(html);
                             const name_long = $("head > title").text().toString();
-                            const name = name_long.replace(' - War Brokers','');
+                            const name = name_long.replace(' - War Brokers', '');
                             const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                             const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                             let currentKD = (kills / deaths);
@@ -1053,14 +1046,14 @@ client.on('message', async msg => {
                             resultMessage.edit(`${msg.author.toString()}, 這是您的 KD 數據`);
                             resultMessage.channel.send(emb_KD);
                         };
-                });
+                    });
             });
         };
 
         ///S///
-        if (msg.content.startsWith(prefix.S)){
+        if (msg.content.startsWith(prefix.S)) {
             var pre_suggestion = msg.content
-            var suggestion = pre_suggestion.slice(-(pre_suggestion.length-2));
+            var suggestion = pre_suggestion.slice(-(pre_suggestion.length - 2));
             msg.delete({ timeout: 0 });
             msg.channel.send('```----------- Suggestion -----------```');
             msg.channel.send('> ' + suggestion + '\n' + '    Submitted by ' + msg.author.toString()).then((msg) => {
@@ -1069,12 +1062,12 @@ client.on('message', async msg => {
             });
         };
 
-        
+
         ///卡片///
         if (msg.content.startsWith('卡片 ')) {
             var friendzone = msg.content.toString();
             msg.delete({ timeout: 0 });
-            var friend = friendzone.slice(-(friendzone.length-3));
+            var friend = friendzone.slice(-(friendzone.length - 3));
             msg.channel.send(`${friend}我很抱歉，但${msg.member.user}似乎給你發了一張卡片`);
             if (getRandom(3) == 0) {
                 msg.channel.send(`https://cdn.discordapp.com/attachments/874654634533343232/874657393357750312/1.jpg`);

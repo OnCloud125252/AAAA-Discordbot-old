@@ -60,10 +60,10 @@ V X.X.X
 1.新增
 2.修改
 3.增加
-4....
+4.移除
+5.....
 ---
 修復一些BUG
-
 
 ///Time Zones///
 TimeZones = [
@@ -416,3 +416,31 @@ TimeZones = [
   'Pacific/Apia',
   'Africa/Johannesburg'
 ];
+
+client.on('guildMemberAdd', (member) => {
+    const message = `Welcome ${member.id}`
+    const channel = member.guild.channels.cache.get(珍奶效應_welcome);
+    channel.send(message);
+});
+
+
+
+///
+client.on("guildMemberAdd", (member) => {
+    const guild = member.guild;
+    if (!newUsers[guild.id]) newUsers[guild.id] = new Discord.Collection();
+    newUsers[guild.id].set(member.id, member.user);
+  
+    if (newUsers[guild.id].size > 10) {
+      const userlist = newUsers[guild.id].map(u => u.toString()).join(" ");
+      guild.channels.cache.find(channel => channel.name === "general").send("Welcome our new users!\n" + userlist);
+      newUsers[guild.id].clear();
+    }
+});
+  
+client.on("guildMemberRemove", (member) => {
+    const guild = member.guild;
+    if (newUsers[guild.id].has(member.id)) newUsers.delete(member.id);
+});
+///
+

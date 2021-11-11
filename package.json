@@ -11,8 +11,11 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "discord.js": "^12.5.3",
+    "hi-base64": "^0.2.1",
     "luxon": "^2.0.1",
+    "pretty-ms": "^7.0.1",
     "request": "^2.88.2",
+    "rot": "^0.1.0",
     "superagent": "^6.1.0"
   }
 }
