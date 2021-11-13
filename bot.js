@@ -1,14 +1,16 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.6.0' //可修改  (版本)
+const version = '3.6.1' //可修改  (版本)
 
+const base64 = require('hi-base64');
+const rot = require('rot');
 const Discord = require('discord.js');
+const client = new Discord.Client();
 const prefix = require('./prefix.js');
 const request = require('request');
 const cheerio = require('cheerio');
-const client = new Discord.Client();
-const fs = require('fs');
 const prettyMS = require('pretty-ms');
+const fs = require('fs');
 const { head } = require('request');
 const memeURL = require("./memeURL.json");
 
