@@ -112,6 +112,7 @@ if (login_info === 'Terminal') {
         } catch (err) {
             return;
         };
+        
         try {
             //Prefix = $
             if (msg.content.startsWith(prefix.Test)) {
