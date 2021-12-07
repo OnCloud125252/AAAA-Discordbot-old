@@ -75,12 +75,9 @@ else if (login_info === 'Heroku') {
     client.login(process.env.DJS_TOKEN);
 };
 client.on('ready', () => {
-    console.log(`User name :        ${client.user.tag}!`);
-    console.log(`Login platform :   ${login_info}`);
-    console.log(`Time :             ${TWtime()}`);
-    console.log(`Version :          V ${version}`);
-    console.log();
-    console.log("---------------------- Log ----------------------");
+    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Login platform = ${login_info}`);
+    console.log(`V ${version}`);
 });
 ////////////////////////////////////////////////SETUPEND/////////////////////////////////////////////////
 
@@ -1091,18 +1088,6 @@ client.on('message', async msg => {
 
         /*
         ///Meme (SquadBot)///     Done !!!!
-        if (msg.content == 'send') {
-            var url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
-            const attachments = new MessageAttachment(url);
-            client.channels.cache.get('917084716878925844').send(attachments);
-        }
-
-
-        msg.attachments.forEach(img => {
-            const attachments = new MessageAttachment(img.url);
-            client.channels.cache.get('917084716878925844').send(attachments);
-        });
-
         if (msg.content.startsWith(prefix.SquadBot)) {
             const arg = msg.content.substring(prefix.SquadBot.length).split(' ');
             switch (arg[0]) {
