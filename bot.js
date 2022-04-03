@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.6.1' //可修改  (版本)
+const version = '3.6.2' //可修改  (版本)
 
 const base64 = require('hi-base64');
 const rot = require('rot');
@@ -68,7 +68,7 @@ function getRandom(x) {
 
 //登入資訊
 if (login_info === 'Terminal') {
-    const auth = require('./auth.json');
+    const auth = require('./auth');
     client.login(auth.key);
 }
 else if (login_info === 'Heroku') {
@@ -926,7 +926,7 @@ client.on('message', async msg => {
                             (error, response, html) => {
                                 if (!error && response.statusCode == 200) {
                                     const $ = cheerio.load(html);
-                                    const name_long = $("head > title").text().toString();
+                                    const name_long = $("head > title").toString();
                                     const name = name_long.replace(' - War Brokers', '');
                                     const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                                     const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
@@ -1084,6 +1084,30 @@ client.on('message', async msg => {
                 }
             };
         };
+
+        ///
+        if (msg.content.startsWith('嘿')) {
+            var content = msg.content.toString();
+            msg.delete({ timeout: 0 });
+            if (content.length > 1) {
+                var user = content.slice(-(content.length - 1));
+                msg.channel.send('嘿 ${user}');
+            }
+            else {
+                msg.channel.send('嘿 <@859327109679546418>');
+            }
+        };
+
+        ///
+        if (msg.content.includes('你好瑟喔')) {
+            if (getRandom(3) == 0) {
+                msg.channel.send('<@859327109679546418> 不可以瑟瑟');
+            }
+            else {
+                msg.channel.send('<@750203298623127623> 不可以瑟瑟');
+            };
+        };
+
 
 
         /*

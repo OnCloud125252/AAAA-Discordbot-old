@@ -8,17 +8,19 @@
 const login_info = 'Terminal' //可修改  (Heroku/Terminal)
 const version = '3 [b1]' //可修改  (版本)
 
-const base64 = require('hi-base64');
-const rot = require('rot');
-const Discord = require('discord.js');
+import auth from './auth.js';
+import base64 from 'hi-base64';
+import rot from 'rot';
+import Discord from 'discord.js';
+import * as func from './function.js'
+import * as prefix from './prefix.js';
+import request from 'request';
+import cheerio from 'cheerio';
+import prettyMS from 'pretty-ms';
+import fs from 'fs';
+//import memeURL from './memeURL.json'
 const client = new Discord.Client({ intents: (new Discord.Intents()).add(Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_INVITES) });
-const prefix = require('./prefix.js');
-const request = require('request');
-const cheerio = require('cheerio');
-const prettyMS = require('pretty-ms');
-const fs = require('fs');
-const { head } = require('request');
-const memeURL = require("./memeURL.json");
+
 
 //Server ID//
 const AAAADiscordBot = '864375027935608852';
@@ -76,8 +78,7 @@ function logfile(log) {
 
 //登入資訊
 if (login_info === 'Terminal') {
-    const auth = require('./auth.json');
-    client.login(auth.key);
+    client.login(auth);
 }
 else if (login_info === 'Heroku') {
     client.login(process.env.DJS_TEST_TOKEN);
@@ -130,6 +131,12 @@ if (login_info === 'Terminal') {
                                 .setTimestamp();
                             resultMessage.delete();
                             resultMessage.channel.send(emb_botinfo);
+                        });
+                        break;
+                    ///
+                    case 'md':
+                        getschedule().then(data => {
+                            console.log(data.day1[1]);
                         });
                         break;
                     ///
@@ -236,15 +243,17 @@ if (login_info === 'Terminal') {
                         msg.channel.send(typeof (a));
                         break;
                     ///
-
                 };
+            };
+            if (msg.content.includes('你好瑟喔')) {
+                msg.channel.send('<@859327109679546418> 不可以瑟瑟');
             };
         } catch (err) { console.log('OnMessageError', err) };
     });
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 const codever = '0';
-
+/*
 const input = `CREATE_INSTANT_INVITE
 KICK_MEMBERS
 BAN_MEMBERS
@@ -288,3 +297,4 @@ SEND_MESSAGES_IN_THREADS
 START_EMBEDDED_ACTIVITIES`
 
 //console.log(input.replace(/\n/g, ',\n'));
+*/

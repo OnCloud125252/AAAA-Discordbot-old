@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "aaaa",
   "version": "1.0.0",
   "description": "AAAA--DiscordBot",
@@ -9,10 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "axios": "^0.25.0",
     "cheerio": "^1.0.0-rc.10",
     "discord.js": "^12.5.3",
     "hi-base64": "^0.2.1",
+    "iconv-lite": "^0.6.3",
     "luxon": "^2.0.1",
+    "mysql": "^2.18.1",
     "pretty-ms": "^7.0.1",
     "request": "^2.88.2",
     "rot": "^0.1.0",
