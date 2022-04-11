@@ -739,7 +739,7 @@ client.on('message', async msg => {
 
 
         ///KD///
-        if (msg.content.toLowerCase().startsWith(prefix.KD)) {
+        if (msg.content.toLowerCase().startsWith(prefix.kd)) {
             msg.delete();
             let authorName = msg.author.username;
             let authorID = msg.author.id;
