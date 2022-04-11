@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.7.0' //可修改  (版本)
+const version = '3.7.1' //可修改  (版本)
 
 import base64 from 'hi-base64';
 import rot from 'rot';
 import Discord from 'discord.js';
 const client = new Discord.Client();
-import prefix from './prefix.js';
+import * as prefix from './prefix.js';
 import request from 'request';
 import cheerio from 'cheerio';
 import prettyMS from 'pretty-ms';
