@@ -6,10 +6,11 @@ import base64 from 'hi-base64';
 import rot from 'rot';
 import Discord from 'discord.js';
 const client = new Discord.Client();
-import * as prefix from './prefix.js';
 import request from 'request';
 import cheerio from 'cheerio';
 import prettyMS from 'pretty-ms';
+import * as func from './function.js';
+import * as prefix from './prefix.js';
 
 //Server ID//
 const AAAADiscordBot = '864375027935608852';
