@@ -118,6 +118,11 @@ if (login_info === 'Terminal') {
             if (msg.content.startsWith(prefix.Test)) {
                 const cmd = msg.content.substring(prefix.Test.length).split(' ');
                 switch (cmd[0]) {
+                    //
+                    case 'stats':
+
+                    //
+
                     case 'botinfo':
                         msg.channel.send('看到這行的人可以獲得一罐雪碧 ฅ ^• ω •^ ฅ').then(resultMessage => {
                             const ping = (resultMessage.createdTimestamp - msg.createdTimestamp)
@@ -245,9 +250,6 @@ if (login_info === 'Terminal') {
                     ///
                 };
             };
-            if (msg.content.includes('你好瑟喔')) {
-                msg.channel.send('<@859327109679546418> 不可以瑟瑟');
-            };
         } catch (err) { console.log('OnMessageError', err) };
     });
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -297,4 +299,236 @@ SEND_MESSAGES_IN_THREADS
 START_EMBEDDED_ACTIVITIES`
 
 //console.log(input.replace(/\n/g, ',\n'));
+*/
+
+//var dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+//var year = dateObject.getFullYear();  //年(西元) 4digital
+//var month = dateObject.getMonth();  //月 0~11
+//var date = dateObject.getDate(); //日 1~31
+//var day = dateObject.getDay();  //星期 0~5
+//var hours = (dateObject.getHours()+8);
+//var minutes = dateObject.getMinutes();
+//var seconds = dateObject.getSeconds();
+
+///Meme///
+//Get random meme
+/*
+case 'meme':
+    var random_meme = memeURL[getRandom(memeURL.length)];
+    msg.channel.send({
+        embed: {
+            color: "#00d0ff",
+            image: {
+                url: `${random_meme}`,
+            },
+        }
+    });
+    break;
+
+//Add new meme
+case 'store':
+    if(msg.member.roles.cache.some(role => trustedRole.includes(role.id))) {
+        if (cmd[1] == null) {
+            if (msg.attachments.size == 0) {
+                msg.delete();
+                msg.channel.send({
+                    embed: {
+                        color: "#ff0000",
+                        description: "***You can't store nothing !***",
+                        footer: {
+                            text: 'This message will be automatically deleted in 10 seconds',
+                        },
+                    }
+                }).then(msg => msg.delete({timeout: 10000}));
+            }
+            else {
+                msg.attachments.forEach(attachment => {
+                    const ImageLink = attachment.proxyURL;
+                    if (!memeURL.includes(ImageLink)) {
+                        memeURL.push(ImageLink);
+                        let store_meme = JSON.stringify(memeURL, null, 4);
+                        fs.writeFileSync("./memeURL.json", store_meme);
+                        msg.delete();
+                        msg.channel.send({
+                            embed: {
+                                color: "#00FF00",
+                                description: `***You successfully store a new meme !***`,
+                                fields: [
+                                    {
+                                        name: '\u200b',
+                                        value: '**Preview :**',
+                                    },
+                                ],
+                                image: {
+                                    url: `${ImageLink}`,
+                                },
+                                footer: {
+                                    text: 'This message will be automatically deleted in 10 seconds',
+                                },
+                            }
+                        }).then(msg => msg.delete({timeout: 10000}));
+                    }
+                    else {
+                        msg.delete();
+                        msg.channel.send({
+                            embed: {
+                                color: "ff0000",
+                                description: '***Uh, this meme seems to be already exit.***',
+                                footer: {
+                                    text: 'This message will be automatically deleted in 10 seconds',
+                                },
+                            }
+                        }).then(msg => msg.delete({timeout: 10000}));
+                    };
+                });
+            }
+        }
+        else if (cmd[1].substring(0,7) === "http://" || cmd[1].substring(0,8) === "https://") {
+            if (!memeURL.includes(cmd[1])) {
+                memeURL.push(cmd[1]);
+                let store_meme = JSON.stringify(memeURL, null, 4);
+                fs.writeFileSync("./memeURL.json", store_meme);
+                msg.delete();
+                msg.channel.send({
+                    embed: {
+                        color: "#00FF00",
+                        description: `***You successfully store a new meme !***`,
+                        fields: [
+                            {
+                                name: '\u200b',
+                                value: '**Preview :**',
+                            },
+                        ],
+                        image: {
+                            url: `${cmd[1]}`,
+                        },
+                        footer: {
+                            text: 'This message will be automatically deleted in 10 seconds',
+                        },
+                    }
+                }).then(msg => msg.delete({timeout: 10000}));
+            }
+            else {
+                msg.delete();
+                msg.channel.send({
+                    embed: {
+                        color: "ff0000",
+                        description: '***Uh, this meme seems to be already exit.***',
+                        footer: {
+                            text: 'This message will be automatically deleted in 10 seconds',
+                        },
+                    }
+                }).then(msg => msg.delete({timeout: 10000}));
+            };
+        }
+        else {
+            msg.delete();
+            msg.channel.send({
+                embed: {
+                    color: "ff0000",
+                    description: "***Sorry, you can only store an URL of an picture or directly send an attachment.***\n\n**Example usage (URL) :**\nA store <http://meme1.png>\nA store <https://meme2.jpg>",
+                    footer: {
+                        text: 'This message will be automatically deleted in 20 seconds',
+                    },
+                }
+            }).then(msg => msg.delete({timeout: 20000}));
+        };
+    }
+    else {
+        msg.delete();
+        msg.channel.send({
+            embed: {
+                color: "ff0000",
+                description: "***Sorry, you don't have permission to add an new meme.***",
+                footer: {
+                    text: 'This message will be automatically deleted in 10 seconds',
+                },
+            }
+        }).then(msg => msg.delete({timeout: 10000}));
+    };
+    break;
+*/
+
+//Site down
+/*
+//Joke
+case 'joke':
+    request(`https://official-joke-api.appspot.com/jokes/random`,
+        (error, response, body) => {
+            if (!error && response.statusCode == 200) {
+                var data = JSON.parse(body);
+                msg.channel.send(`**${data.setup}**`);
+                setTimeout(function () {
+                    msg.channel.send(`***${data.punchline}***`);
+                }, 5000);
+            };
+        });
+    break;
+*/
+
+
+/*
+///Meme (SquadBot)///     Done !!!!
+if (msg.content.startsWith(prefix.SquadBot)) {
+    const arg = msg.content.substring(prefix.SquadBot.length).split(' ');
+    switch (arg[0]) {
+        //Ping
+        case 'gnip':
+            msg.channel.send('! gnop');
+            break;
+
+        //Joke
+        case 'joke':
+            request(`https://official-joke-api.appspot.com/jokes/random`,
+            (error, response, body) => {
+                if (!error && response.statusCode == 200) {
+                    var data = JSON.parse(body);
+                    msg.channel.send(`**${data.setup}**`);
+                    setTimeout(function(){
+                        msg.channel.send(`***${data.punchline}***`);
+                    }, 5000);
+                };
+            });
+            break;
+    };
+};
+*/
+
+//Basic
+/*
+case '課表':
+    var day = dateObject.getDay()  //星期 0~5
+    if (day > '0' & day < '6') {
+        if (day == 1) {
+            msg.channel.send(time_TW());
+            msg.channel.send(emb_timetablemonall);
+            break;
+        }
+        else if (day == 2) {
+            msg.channel.send(time_TW());
+            msg.channel.send(emb_timetabletueall);
+            break;
+        }
+        else if (day == 3) {
+            msg.channel.send(time_TW());
+            msg.channel.send(emb_timetablewedall);
+            break;
+        }
+        else if (day == 4) {
+            msg.channel.send(time_TW());
+            msg.channel.send(emb_timetablethuall);
+            break;
+        }
+        else if (day == 5) {
+            msg.channel.send(time_TW());
+            msg.channel.send(emb_timetablefriall);
+            break;
+        }
+    }
+    else {
+        msg.reply('今天不用上課啦\n||ばか。。。||\n不過還是給你看一下課表好了');
+        await delay(3000);
+        msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
+        break;
+    };
 */

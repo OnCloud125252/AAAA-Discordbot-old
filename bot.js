@@ -1,18 +1,15 @@
 //////////////////////////////////////////////////SETUP//////////////////////////////////////////////////
 const login_info = 'Heroku' //可修改  (Heroku/Terminal)
-const version = '3.6.2' //可修改  (版本)
+const version = '3.7.0' //可修改  (版本)
 
-const base64 = require('hi-base64');
-const rot = require('rot');
-const Discord = require('discord.js');
+import base64 from 'hi-base64';
+import rot from 'rot';
+import Discord from 'discord.js';
 const client = new Discord.Client();
-const prefix = require('./prefix.js');
-const request = require('request');
-const cheerio = require('cheerio');
-const prettyMS = require('pretty-ms');
-const fs = require('fs');
-const { head } = require('request');
-const memeURL = require("./memeURL.json");
+import prefix from './prefix.js';
+import request from 'request';
+import cheerio from 'cheerio';
+import prettyMS from 'pretty-ms';
 
 //Server ID//
 const AAAADiscordBot = '864375027935608852';
@@ -32,16 +29,6 @@ const trustedRole = [
 ];
 
 ///Time///
-var dateObject = new Date();
-//var dateObject_TW = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
-//var year = dateObject.getFullYear();  //年(西元) 4digital
-//var month = dateObject.getMonth();  //月 0~11
-//var date = dateObject.getDate(); //日 1~31
-//var day = dateObject.getDay();  //星期 0~5
-//var hours = (dateObject.getHours()+8);
-//var minutes = dateObject.getMinutes();
-//var seconds = dateObject.getSeconds();
-
 function TWtime() {
     let dateObject_TW = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
     let TimeString = `${dateObject_TW}`;
@@ -53,13 +40,6 @@ function Wtime() {
     let WTimeString = `${dateObject_W}`;
     return WTimeString;
 };
-
-//Delay//
-function delay(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
 
 //隨機取數//
 function getRandom(x) {
@@ -209,34 +189,6 @@ client.on('message', async msg => {
         msg.channel.send('Hello,' + `${msg.member.user}` + '，今天心情如何呀?')
         msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875182203322122250/sticker_26.png')
     };
-    if (msg.content === '早安') {
-        await delay(300);
-        if (msg.guild.id == 玩WB的台灣人) {
-            msg.channel.send(`早安~ ${msg.member.user}  ,愛麗絲 妳別激動 . . .`)
-        }
-        else {
-            msg.channel.send(`早安~ ${msg.member.user}`)
-        };
-        msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875181934802792459/sticker_9.png')
-    };
-    if (msg.content === '午安') {
-        await delay(300);
-        msg.channel.send(`加油 ${msg.member.user} ，剩下半天了!`)
-        if (msg.guild.id == 玩WB的台灣人) {
-            msg.channel.send(`愛麗絲 你有空嗎?  我們去喝茶 ~`)
-            msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875194906778411048/sticker_49.png')
-        };
-    };
-    if (msg.content === '晚安') {
-        await delay(300);
-        msg.channel.send(`晚安~ ${msg.member.user}`)
-        msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195042908753920/sticker_83.png')
-        if (msg.guild.id == 玩WB的台灣人) {
-            msg.channel.send(`愛麗絲 該吃藥了(拉走)`)
-            msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195937344061470/sticker_36.png')
-        };
-    };
-
 
     ////字串分析////
     try {
@@ -456,45 +408,6 @@ client.on('message', async msg => {
                     });
                     break;
 
-                //Basic
-                /*
-                case '課表':
-                    var day = dateObject.getDay()  //星期 0~5
-                    if (day > '0' & day < '6') {
-                        if (day == 1) {
-                            msg.channel.send(time_TW());
-                            msg.channel.send(emb_timetablemonall);
-                            break;
-                        }
-                        else if (day == 2) {
-                            msg.channel.send(time_TW());
-                            msg.channel.send(emb_timetabletueall);
-                            break;
-                        }
-                        else if (day == 3) {
-                            msg.channel.send(time_TW());
-                            msg.channel.send(emb_timetablewedall);
-                            break;
-                        }
-                        else if (day == 4) {
-                            msg.channel.send(time_TW());
-                            msg.channel.send(emb_timetablethuall);
-                            break;
-                        }
-                        else if (day == 5) {
-                            msg.channel.send(time_TW());
-                            msg.channel.send(emb_timetablefriall);
-                            break;
-                        }
-                    }
-                    else {
-                        msg.reply('今天不用上課啦\n||ばか。。。||\n不過還是給你看一下課表好了');
-                        await delay(3000);
-                        msg.channel.send('https://cdn.discordapp.com/attachments/864239176605499412/868548576572235806/739564238ce2c7c2.png');
-                        break;
-                    };
-                */
-
                 //科學班題目
                 case 'S110':
                     msg.channel.send(emb_S110);
@@ -654,163 +567,6 @@ client.on('message', async msg => {
                         }
                     });
                     break;
-
-
-                ///Meme///
-                //Get random meme
-                /*
-                case 'meme':
-                    var random_meme = memeURL[getRandom(memeURL.length)];
-                    msg.channel.send({
-                        embed: {
-                            color: "#00d0ff",
-                            image: {
-                                url: `${random_meme}`,
-                            },
-                        }
-                    });
-                    break;
-
-                //Add new meme
-                case 'store':
-                    if(msg.member.roles.cache.some(role => trustedRole.includes(role.id))) {
-                        if (cmd[1] == null) {
-                            if (msg.attachments.size == 0) {
-                                msg.delete();
-                                msg.channel.send({
-                                    embed: {
-                                        color: "#ff0000",
-                                        description: "***You can't store nothing !***",
-                                        footer: {
-                                            text: 'This message will be automatically deleted in 10 seconds',
-                                        },
-                                    }
-                                }).then(msg => msg.delete({timeout: 10000}));
-                            }
-                            else {
-                                msg.attachments.forEach(attachment => {
-                                    const ImageLink = attachment.proxyURL;
-                                    if (!memeURL.includes(ImageLink)) {
-                                        memeURL.push(ImageLink);
-                                        let store_meme = JSON.stringify(memeURL, null, 4);
-                                        fs.writeFileSync("./memeURL.json", store_meme);
-                                        msg.delete();
-                                        msg.channel.send({
-                                            embed: {
-                                                color: "#00FF00",
-                                                description: `***You successfully store a new meme !***`,
-                                                fields: [
-                                                    {
-                                                        name: '\u200b',
-                                                        value: '**Preview :**',
-                                                    },
-                                                ],
-                                                image: {
-                                                    url: `${ImageLink}`,
-                                                },
-                                                footer: {
-                                                    text: 'This message will be automatically deleted in 10 seconds',
-                                                },
-                                            }
-                                        }).then(msg => msg.delete({timeout: 10000}));
-                                    }
-                                    else {
-                                        msg.delete();
-                                        msg.channel.send({
-                                            embed: {
-                                                color: "ff0000",
-                                                description: '***Uh, this meme seems to be already exit.***',
-                                                footer: {
-                                                    text: 'This message will be automatically deleted in 10 seconds',
-                                                },
-                                            }
-                                        }).then(msg => msg.delete({timeout: 10000}));
-                                    };
-                                });
-                            }
-                        }
-                        else if (cmd[1].substring(0,7) === "http://" || cmd[1].substring(0,8) === "https://") {
-                            if (!memeURL.includes(cmd[1])) {
-                                memeURL.push(cmd[1]);
-                                let store_meme = JSON.stringify(memeURL, null, 4);
-                                fs.writeFileSync("./memeURL.json", store_meme);
-                                msg.delete();
-                                msg.channel.send({
-                                    embed: {
-                                        color: "#00FF00",
-                                        description: `***You successfully store a new meme !***`,
-                                        fields: [
-                                            {
-                                                name: '\u200b',
-                                                value: '**Preview :**',
-                                            },
-                                        ],
-                                        image: {
-                                            url: `${cmd[1]}`,
-                                        },
-                                        footer: {
-                                            text: 'This message will be automatically deleted in 10 seconds',
-                                        },
-                                    }
-                                }).then(msg => msg.delete({timeout: 10000}));
-                            }
-                            else {
-                                msg.delete();
-                                msg.channel.send({
-                                    embed: {
-                                        color: "ff0000",
-                                        description: '***Uh, this meme seems to be already exit.***',
-                                        footer: {
-                                            text: 'This message will be automatically deleted in 10 seconds',
-                                        },
-                                    }
-                                }).then(msg => msg.delete({timeout: 10000}));
-                            };
-                        }
-                        else {
-                            msg.delete();
-                            msg.channel.send({
-                                embed: {
-                                    color: "ff0000",
-                                    description: "***Sorry, you can only store an URL of an picture or directly send an attachment.***\n\n**Example usage (URL) :**\nA store <http://meme1.png>\nA store <https://meme2.jpg>",
-                                    footer: {
-                                        text: 'This message will be automatically deleted in 20 seconds',
-                                    },
-                                }
-                            }).then(msg => msg.delete({timeout: 20000}));
-                        };
-                    }
-                    else {
-                        msg.delete();
-                        msg.channel.send({
-                            embed: {
-                                color: "ff0000",
-                                description: "***Sorry, you don't have permission to add an new meme.***",
-                                footer: {
-                                    text: 'This message will be automatically deleted in 10 seconds',
-                                },
-                            }
-                        }).then(msg => msg.delete({timeout: 10000}));
-                    };
-                    break;
-                */
-
-                //Site down
-                /*
-                //Joke
-                case 'joke':
-                    request(`https://official-joke-api.appspot.com/jokes/random`,
-                        (error, response, body) => {
-                            if (!error && response.statusCode == 200) {
-                                var data = JSON.parse(body);
-                                msg.channel.send(`**${data.setup}**`);
-                                setTimeout(function () {
-                                    msg.channel.send(`***${data.punchline}***`);
-                                }, 5000);
-                            };
-                        });
-                    break;
-                */
             };
         };
 
@@ -822,7 +578,7 @@ client.on('message', async msg => {
                 ////Command////
                 ///Stats///
                 //Add new
-                case 'new':
+                case "new":
                     if (cmd[1] == 'help') {
                         msg.channel.send({
                             embed: {
@@ -847,7 +603,7 @@ client.on('message', async msg => {
                                     },
                                     {
                                         name: "\u200B",
-                                        value: "**5.**輸入 `WBnew <頁面網址>` (用您複製的內容取代 `<頁面網址>`)\n舉例:\n`WBnew https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
+                                        value: "**5.**輸入 `WB new <頁面網址>` (用您複製的內容取代 `<頁面網址>`)\n舉例:\n`WB new https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
                                     },
                                     {
                                         name: "\u200B",
@@ -865,71 +621,157 @@ client.on('message', async msg => {
                             msg.channel.send({
                                 embed: {
                                     color: "#ff0000",
-                                    title: "***Sorry, you can't store nothing !\nYou can only store an URL of your War Brokers stats.***",
-                                    description: "**Example usage:**\n`WBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>`",
+                                    title: "***You can only store an URL of your War Brokers stats.***",
+                                    description: "**Example usage:**\n`WB new https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
                                 }
                             });
                             return;
                         }
                         else {
                             var URL = cmd[1].toString();
-                            var player_ID = URL.substring(38, 62);
                             if (cmd[1].substring(0, 8) === "https://") {
-                                msg.delete({ timeout: 0 });
-                                client.playerID = require("./playerID.json");
-                                client.playerID[msg.author.id] = {
-                                    playerID: player_ID,
-                                };
-                                let stats_URL = client.playerID[msg.author.id].playerID;
-                                let author = msg.author.username;
-                                fs.writeFile("./playerID.json", JSON.stringify(client.playerID, null, 4), err => {
-                                    if (err) {
-                                        throw err;
+                                msg.delete();
+                                let gameID = URL.substring(38, 62);
+                                let authorName = msg.author.username;
+                                let authorID = msg.author.id;
+                                msg.channel.send({
+                                    embed: {
+                                        color: "#FF0000",
+                                        title: `Processing ...`,
+                                        footer: {
+                                            text: "Please wait for a while ...",
+                                        }
                                     }
-                                    else {
-                                        msg.channel.send({
-                                            embed: {
-                                                color: "#00FF00",
-                                                title: `Congrats ${author} !`,
-                                                description: `This is your ID : \`${player_ID}\`\nNow, please check if this is the right stats`,
-                                            }
-                                        });
-                                        msg.channel.send(`https://stats.warbrokers.io/players/i/${stats_URL}`);
-                                    };
+                                }).then(preMessage => {
+                                    func.storegameID(authorID, gameID).then(errcode => {
+                                        switch (errcode) {
+                                            case 0:
+                                                preMessage.delete();
+                                                preMessage.channel.send({
+                                                    embed: {
+                                                        color: "#FF0000",
+                                                        title: `***Command failed with unexpected error !***`,
+                                                        footer: {
+                                                            text: "Please contact `꧁AAAA꧂#2713` is kept facing this error"
+                                                        }
+                                                    }
+                                                });
+                                                break;
+
+                                            case 1:
+                                                request(`https://stats.warbrokers.io/players/i/${gameID}`, (error, response, html) => {
+                                                    let $ = cheerio.load(html);
+                                                    const gameName_long = $("head > title").text().toString();
+                                                    const gameName = gameName_long.replace(' - War Brokers', '');
+                                                    preMessage.delete();
+                                                    preMessage.channel.send({
+                                                        embed: {
+                                                            color: "#00FF00",
+                                                            title: `***Congrats ${authorName} !***\n**Successfully store your stats page !**`,
+                                                            fields: [
+                                                                {
+                                                                    name: "This is your stats page :",
+                                                                    value: `[${gameName}](https://stats.warbrokers.io/players/i/${gameID})`,
+                                                                }
+                                                            ],
+                                                            footer: {
+                                                                text: "Please check if this is the right stats"
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                                break;
+
+                                            case 2:
+                                                request(`https://stats.warbrokers.io/players/i/${gameID}`, (error, response, html) => {
+                                                    let $ = cheerio.load(html);
+                                                    const gameName_long = $("head > title").text().toString();
+                                                    const gameName = gameName_long.replace(' - War Brokers', '');
+                                                    preMessage.delete();
+                                                    preMessage.channel.send({
+                                                        embed: {
+                                                            color: "#FF0000",
+                                                            title: `We've already stored your stats !`,
+                                                            fields: [
+                                                                {
+                                                                    name: "This is your stats page :",
+                                                                    value: `[${gameName}](https://stats.warbrokers.io/players/i/${gameID})`,
+                                                                }
+                                                            ],
+                                                            footer: {
+                                                                text: "Please check if this is the right stats"
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                                break;
+
+                                            default:
+                                                preMessage.delete();
+                                                preMessage.channel.send({
+                                                    embed: {
+                                                        color: "#FF0000",
+                                                        title: `***Command failed with unexpected error !***`,
+                                                        footer: {
+                                                            text: "Please contact `꧁AAAA꧂#2713` is kept facing this error"
+                                                        }
+                                                    }
+                                                });
+                                                break;
+                                        };
+                                    });
                                 });
                             }
                             else {
                                 msg.channel.send({
                                     embed: {
                                         color: "#ff0000",
-                                        title: "***Sorry, you can only store an URL of your War Brokers stats.***",
-                                        description: "**Example usage:**\n`WBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>`",
+                                        title: "***You can only store an URL of your War Brokers stats.***",
+                                        description: "**Example usage:**\n`WB new https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
                                     }
                                 });
                             };
                         }
                     };
                     break;
+            };
+        };
 
-                //Show KD
-                case 'KD':
-                    msg.channel.send({
-                        embed: {
-                            color: "#ff0000",
-                            description: '***This might take a few seconds . . .***',
-                        }
-                    }).then(resultMessage => {
-                        client.playerID = require("./playerID.json");
-                        if (!client.playerID[msg.author.id]) { return };
-                        var user_ID = client.playerID[msg.author.id].playerID;
-                        request(`https://stats.warbrokers.io/players/i/${user_ID}`,
-                            (error, response, html) => {
+
+        ///KD///
+        if (msg.content.toLowerCase().startsWith(prefix.KD)) {
+            msg.delete();
+            let authorName = msg.author.username;
+            let authorID = msg.author.id;
+            msg.channel.send({
+                embed: {
+                    color: "#FF0000",
+                    description: '***This might take a few seconds . . .***',
+                }
+            }).then(preMessage => {
+                func.readgameID(authorID).then(callback => {
+                    switch (callback.errcode) {
+                        case 0:
+                            preMessage.delete();
+                            preMessage.channel.send({
+                                embed: {
+                                    color: "#FF0000",
+                                    title: `***Command failed with unexpected error !***`,
+                                    footer: {
+                                        text: "Please contact `꧁AAAA꧂#2713` is kept facing this error"
+                                    }
+                                }
+                            });
+                            break;
+
+                        case 1:
+                            request(`https://stats.warbrokers.io/players/i/${callback.gameID}`, (error, response, html) => {
                                 if (!error && response.statusCode == 200) {
-                                    const $ = cheerio.load(html);
-                                    const name_long = $("head > title").toString();
-                                    const name = name_long.replace(' - War Brokers', '');
-                                    const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                                    const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                                    let $ = cheerio.load(html);
+                                    let gameName_long = $("head > title").text().toString();
+                                    let gameName = gameName_long.replace(' - War Brokers', '');
+                                    let kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
+                                    let deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
                                     let currentKD = (kills / deaths);
                                     let rounded_currentKD = Math.round(currentKD * 10) / 10;
                                     let nextKD = (rounded_currentKD + 0.05);
@@ -940,115 +782,65 @@ client.on('message', async msg => {
                                     let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
                                     var emb_KD = new Discord.MessageEmbed()
                                         .setColor('#fccbcb')
-                                        .setTitle(`Player name : ${name}`)
+                                        .setTitle(`玩家名稱 : ${gameName}`)
                                         .addFields(
                                             {
-                                                name: ('Your KD is : `' + rounded_currentKD + '`'),
-                                                value: (`You need \`${rounded_neededKills}\` kills to increase KD\nYou can handle \`${rounded_neededDeaths}\` deaths before your KD drops`),
+                                                name: ('您的 KD 值 : `' + rounded_currentKD + '`'),
+                                                value: (`您需要 \`${rounded_neededKills}\` 次擊殺來增加 KD 值\n您可以在 KD 值下降之前死亡 \`${rounded_neededDeaths}\` 次`),
                                                 inline: true
                                             },
                                             {
-                                                name: ('Overview :'),
-                                                value: (`Kills = \`${kills}\`\nDeaths = \`${deaths}\``),
+                                                name: ('目前狀況 :'),
+                                                value: (`擊殺次數 = \`${kills}\`\n死亡次數 = \`${deaths}\``),
                                             },
                                             {
-                                                name: ("Here's your full stats :"),
-                                                value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
+                                                name: ("這是您的完整統計數據 :"),
+                                                value: (`[${gameName}](https://stats.warbrokers.io/players/i/${callback.gameID})`),
                                             },
                                         );
-                                    resultMessage.edit(`${msg.author.toString()}, here is your KD`);
-                                    resultMessage.channel.send(emb_KD);
+                                    preMessage.edit(`${authorName}, 這是您的 KD 數據`);
+                                    preMessage.channel.send(emb_KD);
                                 };
                             });
-                    });
-                    break;
+                            break;
 
-                //Show stats
-                case 'stats':
-                    if (!client.playerID[msg.author.id]) { return };
-                    var user_ID = client.playerID[msg.author.id].playerID;
-                    msg.channel.send({
-                        embed: {
-                            color: "0000ff",
-                            description: `[Here is your full stats](https://stats.warbrokers.io/players/i/${user_ID})`,
-                        }
-                    });
-                    break;
-            };
-        };
-
-
-        ///KD///
-        if (msg.content.toLowerCase().startsWith(prefix.KD)) {
-            msg.channel.send({
-                embed: {
-                    color: "ff0000",
-                    description: '***This might take a few seconds . . .***',
-                }
-            }).then(resultMessage => {
-                client.playerID = require("./playerID.json");
-                if (!client.playerID[msg.author.id]) {
-                    resultMessage.edit({
-                        embed: {
-                            color: "#ff0000",
-                            title: "***您似乎尚未連結帳號 ?***",
-                            fields: [
-                                {
-                                    name: "**連結方式 :**",
-                                    value: "WBnew <頁面網址>",
-                                },
-                                {
-                                    name: "**舉例 :**",
-                                    value: "`WBnew <https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb>`",
-                                },
-                                {
-                                    name: "***需要幫助 ?***",
-                                    value: "輸入 `WBnew help` 以獲得更多資訊",
+                        case 2:
+                            preMessage.edit({
+                                embed: {
+                                    color: "#ff0000",
+                                    title: "***您似乎尚未連結帳號 ?***",
+                                    fields: [
+                                        {
+                                            name: "**連結方式 :**",
+                                            value: "WBnew <頁面網址>",
+                                        },
+                                        {
+                                            name: "**舉例 :**",
+                                            value: "`WB new https://stats.warbrokers.io/players/i/5de3a718bfea714d3b292bcb`",
+                                        },
+                                        {
+                                            name: "***需要幫助 ?***",
+                                            value: "輸入 `WBnew help` 以獲得更多資訊",
+                                        }
+                                    ]
                                 }
-                            ]
-                        }
-                    });
-                    return;
-                };
-                var user_ID = client.playerID[msg.author.id].playerID;
-                request(`https://stats.warbrokers.io/players/i/${user_ID}`,
-                    (error, response, html) => {
-                        if (!error && response.statusCode == 200) {
-                            const $ = cheerio.load(html);
-                            const name_long = $("head > title").text().toString();
-                            const name = name_long.replace(' - War Brokers', '');
-                            const kills = $("#player-details-summary-grid > div:nth-child(2) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                            const deaths = $("#player-details-summary-grid > div:nth-child(3) > div.player-details-number-box-value").text().replace(/,/g, "").replace(/\n/g, "").replace(/ /g, "");
-                            let currentKD = (kills / deaths);
-                            let rounded_currentKD = Math.round(currentKD * 10) / 10;
-                            let nextKD = (rounded_currentKD + 0.05);
-                            let neededKills = (nextKD * deaths - kills);
-                            let rounded_neededKills = Math.round(neededKills * 1) / 1;
-                            let KDdrop = (rounded_currentKD - 0.06);
-                            let neededDeaths = (kills / KDdrop - deaths);
-                            let rounded_neededDeaths = Math.round(neededDeaths * 1) / 1;
-                            var emb_KD = new Discord.MessageEmbed()
-                                .setColor('#fccbcb')
-                                .setTitle(`玩家名稱 : ${name}`)
-                                .addFields(
-                                    {
-                                        name: ('您的 KD 值 : `' + rounded_currentKD + '`'),
-                                        value: (`您需要 \`${rounded_neededKills}\` 次擊殺來增加 KD 值\n您可以在 KD 值下降之前死亡 \`${rounded_neededDeaths}\` 次`),
-                                        inline: true
-                                    },
-                                    {
-                                        name: ('目前狀況 :'),
-                                        value: (`擊殺次數 = \`${kills}\`\n死亡次數 = \`${deaths}\``),
-                                    },
-                                    {
-                                        name: ("這是您的完整統計數據 :"),
-                                        value: (`[View full stats of ${msg.author}](https://stats.warbrokers.io/players/i/${user_ID})`),
-                                    },
-                                );
-                            resultMessage.edit(`${msg.author.toString()}, 這是您的 KD 數據`);
-                            resultMessage.channel.send(emb_KD);
-                        };
-                    });
+                            });
+                            break;
+
+                        default:
+                            preMessage.delete();
+                            preMessage.channel.send({
+                                embed: {
+                                    color: "#FF0000",
+                                    title: `***Command failed with unexpected error !***`,
+                                    footer: {
+                                        text: "Please contact `꧁AAAA꧂#2713` is kept facing this error"
+                                    }
+                                }
+                            });
+                            break;
+                    };
+                });
             });
         };
 
@@ -1091,12 +883,46 @@ client.on('message', async msg => {
             msg.delete({ timeout: 0 });
             if (content.length > 1) {
                 var user = content.slice(-(content.length - 1));
-                msg.channel.send('嘿 ${user}');
+                msg.channel.send(`嘿 ${user}`);
             }
             else {
                 msg.channel.send('嘿 <@859327109679546418>');
             }
         };
+
+        ///
+        switch (msg.content) {
+            case 'emm':
+                msg.channel.send('<@859327109679546418> 好色喔');
+                break;
+            case '爛':
+                msg.channel.send('<@859327109679546418> 好爛');
+                break;
+            case '早安':
+                if (msg.guild.id == 玩WB的台灣人) {
+                    msg.channel.send(`早安~ ${msg.member.user}  ,愛麗絲 妳別激動 . . .`);
+                }
+                else {
+                    msg.channel.send(`早安~ ${msg.member.user}`);
+                };
+                msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875181934802792459/sticker_9.png');
+                break;
+            case '午安':
+                msg.channel.send(`加油 ${msg.member.user} ，剩下半天了!`);
+                if (msg.guild.id == 玩WB的台灣人) {
+                    msg.channel.send(`愛麗絲 你有空嗎?  我們去喝茶 ~`)
+                    msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875194906778411048/sticker_49.png')
+                };
+                break;
+            case '晚安':
+                msg.channel.send(`晚安~ ${msg.member.user}`);
+                msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195042908753920/sticker_83.png');
+                if (msg.guild.id == 玩WB的台灣人) {
+                    msg.channel.send(`愛麗絲 該吃藥了(拉走)`)
+                    msg.channel.send('https://cdn.discordapp.com/attachments/874654634533343232/875195937344061470/sticker_36.png');
+                };
+                break;
+        }
 
         ///
         if (msg.content.includes('你好瑟喔')) {
@@ -1108,34 +934,6 @@ client.on('message', async msg => {
             };
         };
 
-
-
-        /*
-        ///Meme (SquadBot)///     Done !!!!
-        if (msg.content.startsWith(prefix.SquadBot)) {
-            const arg = msg.content.substring(prefix.SquadBot.length).split(' ');
-            switch (arg[0]) {
-                //Ping
-                case 'gnip':
-                    msg.channel.send('! gnop');
-                    break;
-                
-                //Joke
-                case 'joke':
-                    request(`https://official-joke-api.appspot.com/jokes/random`,
-                    (error, response, body) => {
-                        if (!error && response.statusCode == 200) {
-                            var data = JSON.parse(body);
-                            msg.channel.send(`**${data.setup}**`);
-                            setTimeout(function(){ 
-                                msg.channel.send(`***${data.punchline}***`);
-                            }, 5000);
-                        };
-                    });
-                    break;
-            };
-        };
-        */
     } catch (err) {
         console.log('OnMessageError', err);
     };
